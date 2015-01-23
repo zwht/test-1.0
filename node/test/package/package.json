@@ -1,0 +1,14 @@
+{
+    "name":"zwFirstPackage",
+    "main":"./lib/index.js",
+    "description":"包的简要说明",
+    "version":"0.0.1",
+    "keywords":"关键字数据，通常用于搜索",
+    "dependencies":{
+        "express":"3.0.0rc4",
+        "ejs":"*",
+        "connect":">=1.x",
+        "connect-mongo":">=0.1.7",
+        "mongodb":">=0.9.9"
+    }
+}

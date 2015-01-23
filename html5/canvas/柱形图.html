@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body { background-color: #bfd0c4; margin: 15px; padding: 0 }
+
+        #canvasBox { background-color: #37474f; border-radius: 6px; }
+
+        canvas { }
+    </style>
+</head>
+<body>
+<div id="canvasBox">
+    <canvas width="690" height="350" id="canvas"></canvas>
+</div>
+
+<script>
+    window.onload = function () {
+        var canvasBox = document.getElementById("canvasBox");
+        var canvas = document.getElementById("canvas");
+        var multidata = [
+            {x: 20140914, d1: 24, d2: 4},
+            {x: 20140916, d1: 14, d2: 1},
+            {x: 20140924, d1: 45, d2: 0},
+            {x: 20141014, d1: 60, d2: 6},
+            {x: 20141109, d1: 35, d2: 21},
+            {x: 20141109, d1: 35, d2: 21},
+            {x: 20141109, d1: 35, d2: 0},
+            {x: 20141109, d1: 35, d2: 21},
+            {x: 20141109, d1: 35, d2: 21},
+            {x: 20141111, d1: 35, d2: 21}
+        ];
+
+        zwOn();
+        window.onresize = function () {
+            zwOn();
+        };
+
+        function zwOn() {
+            var canvasBoxWidth = canvasBox.offsetWidth,
+                    height = 350,
+                    width = 690,
+                    padding = 40;
+
+            BarChart.setdata("canvas", width, height, multidata, padding);
+        }
+
+    };
+    var BarChart = {
+
+
+        setdata: function (Id, width, height, data, padding) {
+            this.canvas = document.getElementById(Id);
+            this.canvasBox = this.canvas.parentNode;
+
+            this.canvas.width = this.canvasBox.offsetWidth;//设置宽
+            this.scale = (this.canvas.width / width).toFixed(2) > 1 ? 1 : (this.canvas.width / width).toFixed(2);
+            this.canvas.height = height * this.scale;//设置高
+
+            this.ctx = this.canvas.getContext("2d");
+            this.drawXY(data, (padding * this.scale), this.canvas);
+            //console.log(this.canvas.height)
+        },
+        drawXY: function (data, padding, canvas) {
+            this.ctx.font = parseInt(16 * this.scale) + 'px 微软雅黑 sans-serif';
+
+            var perwidth = this.getPixel(data, canvas.width, padding);//x 轴每一个数据占据的宽度
+            var maxY = this.getMax(data);//获得Y轴上的最大值
+            var yPixel = this.getYPixel(maxY, canvas.height, padding).pixel;
+            var ycount = this.getYPixel(maxY, canvas.height, padding).ycount;
+
+            console.log(ycount);
+            this.ctx.textAlign = "right";//y轴文字靠右写
+            this.ctx.textBaseline = "middle";//文字的中心线的调整
+            this.ctx.fillStyle = "#FFF";
+
+            /**
+             * 绘制坐标轴
+             * */
+            this.ctx.beginPath();
+            this.ctx.strokeStyle = "#5f6b72";
+            this.ctx.moveTo(padding, padding / 2);
+            this.ctx.lineTo(padding, canvas.height - padding);
+            this.ctx.lineTo(canvas.width - padding / 2, canvas.height - padding);
+            this.ctx.stroke();
+            /**
+             * 画y轴坐标点文字
+             * */
+            for (var i = 0; i < ycount / 10; i++) {
+                this.ctx.fillText(i * 10, padding - (8 * this.scale), (ycount / 10 - i) * 10 * yPixel, perwidth);
+            }
+
+            /**
+             * 画x轴坐标点文字
+             * */
+            this.ctx.textAlign = "center";
+            for (var i = 0; i < data.length; i++) {
+                var x_x = this.getCoordX(padding, perwidth, i + .5);
+                var x_y = canvas.height - padding + 20 * this.scale;
+                this.ctx.fillText(data[i].x, x_x, x_y, perwidth - 10 * this.scale);
+
+            }
+
+            /**
+             * 绘制图表
+             * */
+            this.drawData(data, padding, perwidth, yPixel);
+
+        },
+        drawData: function (data, padding, perwidth, yPixel) {
+            /**
+             * 绘制柱形图
+             * */
+
+            for (var i = 0; i < data.length; i++) {
+                var x1 = this.getCoordX(padding, perwidth, i + .5);
+                var y1 = this.getCoordY(padding, yPixel, data[i].d1);
+                var y2 = this.getCoordY(padding, yPixel, data[i].d2);
+                if (!data[i].d2) {
+
+                    this.ctx.beginPath();
+                    this.ctx.font = parseInt(32 * this.scale) + 'px 微软雅黑 sans-serif';
+                    this.ctx.fillStyle = "#099";
+                    this.ctx.fillText("恭喜", x1, (this.canvas.height - padding)/2, perwidth);
+                    this.ctx.stroke();
+
+                    this.ctx.beginPath();
+                    this.ctx.font = parseInt(16 * this.scale) + 'px 微软雅黑 sans-serif';
+                    this.ctx.fillStyle = "#ccc";
+                    this.ctx.fillText("本次考试", x1, (this.canvas.height - padding)/2+30*this.scale, perwidth);
+                    this.ctx.stroke();
+
+                    this.ctx.beginPath();
+                    this.ctx.fillText("没有错误", x1, (this.canvas.height - padding)/2+50*this.scale, perwidth);
+                    this.ctx.stroke();
+
+                } else {
+
+                    this.ctx.beginPath();
+                    this.ctx.fillStyle = "#e0e0e0";
+                    this.ctx.fillRect(x1 - perwidth / 4, y1, perwidth / 2, (this.canvas.height - padding - y1 - 1));
+                    this.ctx.stroke();
+
+                    this.ctx.beginPath();
+                    this.ctx.fillStyle = "#fff";
+                    this.ctx.fillText(data[i].d1, x1, y1 - 10 * this.scale);
+                    this.ctx.stroke();
+
+                    this.ctx.beginPath();
+                    this.ctx.fillStyle = "#d24846";
+                    this.ctx.fillRect(x1 - perwidth / 4, y2, perwidth / 2, (this.canvas.height - padding - y2 - 1));
+                    this.ctx.stroke();
+
+                    this.ctx.beginPath();
+                    this.ctx.fillStyle = "#ccc";
+                    this.ctx.fillText(data[i].d2, x1, (this.canvas.height - y2 - padding) / 2 + y2);
+                    this.ctx.stroke();
+                }
+
+            }
+
+
+        },
+        getPixel: function (data, width, padding) {//设置x轴每一各宽度
+            var count = data.length;
+            return ((width - padding * 3 / 2) / count).toFixed(2);
+        },
+        getYPixel: function (maxY, height, padding) {
+            var ycount = (parseInt(maxY / 10) + 1) * 10;//y轴最大值
+            return {pixel: (height - padding * 3 / 2) / ycount, ycount: ycount};
+        },//y轴的单位长度
+        getCoordX: function (padding, perwidth, _index) {//横坐标X 随ptindex 获得下标从1开始 不是从0开始
+            return perwidth * _index + padding;
+        },
+        getCoordY: function (padding, yPixel, value) {
+            var y = yPixel * value;
+            return this.canvas.height - padding - y;
+        },//纵坐标X 随ptindex 获得(注意 纵坐标的算法是倒着的因为原点在最上面)
+        getMax: function (data) {
+
+            var maxY = data[0].d1;
+            var length = data.length;
+            for (var i = 1; i < length; i++) {
+                if (maxY < data[i].d1) maxY = data[i].d1;
+            }
+            return maxY;//返回最大值 如果不是多数据
+        }
+    }
+
+</script>
+</body>
+</html>

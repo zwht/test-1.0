@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!-- saved from url=(0029)http://raphaeljs.com/pie.html -->
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>Pie Chart</title>
+    <script src="../common/js/raphael/raphael.min-2.1.2.js"></script>
+    <script src="../common/js/raphael/pie1.js"></script>
+    <script src="../common/js/jquery/jquery-1.10.2.js"></script>
+    <style media="screen">
+        body {
+            color: #fff;
+            font: 300 100.1% "Helvetica Neue", Helvetica, "Arial Unicode MS", Arial, sans-serif;
+        }
+        #holder {
+            height: 480px;
+            left: 50%;
+            margin: -240px 0 0 -320px;
+            position: absolute;
+            top: 50%;
+            width: 640px;
+        }
+        #copy {
+            bottom: 0;
+            font: 300 .7em "Helvetica Neue", Helvetica, "Arial Unicode MS", Arial, sans-serif;
+            position: absolute;
+            right: 1em;
+            text-align: right;
+        }
+        #copy a {
+            color: #fff;
+        }
+        #holder {
+            margin: -350px 0 0 -350px;
+            width: 700px;
+            height: 700px;
+        }
+    </style>
+</head>
+<body>
+<table style="display: none;">
+    <tbody>
+    <tr>
+        <th scope="row">C</th>
+        <td>4%</td>
+    </tr>
+    <tr>
+        <th scope="row">Perl</th>
+        <td>3%</td>
+    </tr>
+    <tr>
+        <th scope="row">C++</th>
+        <td>2%</td>
+    </tr>
+    <tr>
+        <th scope="row">Java</th>
+        <td>2%</td>
+    </tr>
+    <tr>
+        <th scope="row">Objective-C</th>
+        <td>2%</td>
+    </tr>
+    </tbody>
+</table>
+<div id="holder"></div>
+<script>
+    $(function () {
+        var values = [],
+                labels = [];
+        $("tr").each(function () {
+            values.push(parseInt($("td", this).text(), 10));
+            labels.push($("th", this).text());
+        });
+        $("table").hide();
+        var par=Raphael("holder", 700, 700);
+        var p=par.pieChart(350, 350, 200, values, labels, "#fff");
+        var c=par.circle(350, 350, 150)
+                .attr({fill:'#fff',stroke:'none'});
+        console.log(c);
+    });
+</script>
+</body>
+</html>

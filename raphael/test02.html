@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../common/js/raphael/raphael.min-2.1.2.js"></script>
+    <style>
+        #first {
+            background: #fff;
+            border: 1px solid #009999;
+            width: 600px;
+            margin: 0 auto
+        }
+    </style>
+</head>
+<body>
+<div id="first">
+
+</div>
+<span>111111</span>
+<script>
+    window.onload = function () {
+
+        //数据
+        var data = [
+            {"sum": 10, "score": "0-20", "scoreId": 1},
+            {"sum": 5, "score": "21-40", "scoreId": 2},
+            {"sum": 20, "score": "41-60", "scoreId": 3},
+            {"sum": 0, "score": "61-80", "scoreId": 4},
+            {"sum": 25, "score": "81-90", "scoreId": 5},
+            {"sum": 45, "score": "91-100", "scoreId": 6},
+            {"sum": 25, "score": "101-110", "scoreId": 7},
+            {"sum": 9, "score": "111-120", "scoreId": 8}
+
+        ];
+        /**原——maxY:Y坐标最大值，sumY:Y坐标分段数量,svgWidth:svg宽，svgHeight:svg高，
+         *  marginX:坐标X轴移动宽，marginY:坐标Y轴移动宽，top:坐标轴距离svg顶部距离，right:坐标轴距离svg右侧距离
+         **/
+        var origin = {'maxY': 50, 'sumY': 5,"svgWidth":600,"svgHeight":300, "marginX": 50, "marginY": 30,"top":50,"right":150},
+                width = origin.svgWidth-origin.marginX,//有效坐标范围宽
+                height =  origin.svgHeight-origin.marginY,//有效坐标范围高
+                //创建坐标轴图表方法
+                axis = function (data) {
+
+                    var netX = 0,
+                            netY = 0,
+                            segmentX =width / (data.length+1),
+                            segmentY =height / (origin.sumY+1);
+                    //创建Y坐标轴点和数据
+                    for (var i = 0; i <= origin.sumY; i++) {
+                        netY = -((i + 1) * segmentY);//获取Y轴对应点位置,取负数
+                        if(i!=origin.sumY){
+                            //创建横向的网格线
+                            paper.path("M0 " + netY + "h" + (width + segmentX))
+                                    .attr({'stroke-width': 1, 'stroke': '#ccc'});
+                            //创建Y轴上点
+                            paper.path("M-10" + netY + "h" + 10)
+                                    .attr({'stroke-width': 1, 'stroke': '#000'});
+                            //创建Y轴上的数据，数据由origin.maxY和origin.sumY决定
+                            paper.text(-25, netY, (i + 1) * (origin.maxY / origin.sumY) + '人')
+                                    .attr({'font-size':16,"fill":"#099","font-weight":700});
+                        }
+                    }
+                    //创建X坐标轴点和数据
+                    var pathOneX = '';
+                    var pathArr=[];
+                    for (var j = 0; j <=data.length; j++) {
+                        netX = (j + 1) * segmentX;//获取X轴对应点位置
+                        if(j!=data.length){
+                            //创建X轴上的点
+                            paper.path("M" + netX + " 0v 10")
+                                    .attr({'stroke-width': 1, 'stroke': '#000'});
+                            //创建X轴上的点上的数据，从data[j].score上获取
+                            paper.text(netX, (20), data[j].score)
+                                    .attr({'font-size':16,"fill":"#099","font-weight":700});
+
+                            //生成折线点坐标位置，用来创建下面创建区域面积和路径用
+                            if (j == 0) {
+                                pathArr += netX + ',' + (-(data[j].sum / origin.maxY) * (height-height / (origin.sumY+1)));
+                                pathOneX = netX;//区域面积结束点X坐标
+                            } else {
+                                pathArr += 'L' + netX + ',' + (-(data[j].sum / origin.maxY) * (height-height / (origin.sumY+1)));
+                            }
+                        }
+                    }
+                    //创建X轴线
+                    paper.path("m0 0h" + (width+segmentX))
+                            .attr({'stroke-width': 2, 'stroke': "#000"});
+                    //创建Y轴线
+                    paper.path("m0 0v -" + (height+segmentY))
+                            .attr({'stroke-width': 2, 'stroke': "#000"});
+                    //创建区域面积
+                    paper.path('m' + pathArr + 'L' + (netX-width / (data.length+1)) + ',0L' + pathOneX + ' 0')
+                            .attr({'stroke-width': 0, "fill": 'rgba(149,18,49,.3)'});
+                    //创建数据路径
+                    paper.path('m' + pathArr)
+                            .attr({'stroke-width': 2, 'stroke': '#099'});
+
+
+                    for (var k = 0; k <data.length; k++) {
+                        //获取X轴对应点位置
+                        netX = (k + 1) * segmentX;
+                        //创建数据圆点,并且把圆点隐藏，等下面用定时器显示圆点，这样就带有动画效果
+                        paper.circle(netX, (-(data[k].sum / origin.maxY) * (height-height / (origin.sumY+1))), 6)
+                                .attr({fill: "none", stroke: "none", "stroke-width": 2, "stroke-opacity": 1});
+                        //创建矩形用于鼠标移入获取焦点显示数据
+                        paper.rect((netX-segmentX/2),(-height),segmentX,height)
+                                .attr({fill:"rgba(0,0,0,0)", "stroke":'none', "stroke-opacity":0});
+                    }
+
+                };
+
+
+        /**
+         * 执行创建图表
+         */
+        //创建画布
+        var paper = Raphael("first", origin.svgWidth, origin.svgHeight);
+        //改变画布原点，宽高
+        paper.setViewBox(-(origin.marginX), -(origin.svgHeight-origin.marginY), (origin.svgWidth), (origin.svgHeight));
+        //执行创建坐标轴及相应数据
+        axis(data);
+        var rectBox=paper.rect(1000,1000,100,50)
+                .attr({"fill":"#c00","stroke":'#099',"stroke-width":2});
+
+
+        //遍历所有svg内部元素
+        var circleArr=[];//得到所有原点
+        var rectArr=[];//得到所有矩形
+        paper.forEach(function (el) {
+            if(el.attr('r')==6){
+                circleArr.push(el);
+            }
+            if(el.attr('stroke-opacity')==0){
+                rectArr.push(el);
+            }
+
+        });
+
+
+        //用定时器把圆点显示出来
+        var cI = 0;
+        var time = setInterval(function () {
+            if (cI < circleArr.length) {
+                circleArr[cI].attr({fill: "#FFF", stroke: "#099", "stroke-width": 2, "stroke-opacity": 1})
+                        .mouseover(function () {
+                            this.animate({fill: "#FFF", "r": 10, stroke: "#099", "stroke-width": 5, "stroke-opacity": .5}, 400);
+                            rectBox.attr({})
+                        })
+                        .mouseout(function () {
+                            this.animate({fill: "#FFF", "r": 6, stroke: "#099", "stroke-width": 2, "stroke-opacity": 1}, 400)
+                        });
+                cI++;
+            } else {
+                clearInterval(time);
+            }
+
+        }, 100);
+
+        //循环rectArr
+        var rectBoxXY={};
+        for(var z=0;z<rectArr.length;z++){
+            rectArr[z]
+                    .mouseover(function(){
+                        this.prev.attr({fill: "#FFF", "r": 10, stroke: "#099", "stroke-width": 5, "stroke-opacity": .5});
+                        rectBox.attr({"x":this.prev.attrs.cx,"y":this.prev.attrs.cy});
+                        rectBoxXY.x=this.prev.attrs.cx;
+                        rectBoxXY.y=this.prev.attrs.cy;
+                        console.log(rectBoxXY);
+                    })
+                    .mouseout(function(){
+                        this.prev.attr({fill: "#FFF", "r": 6, stroke: "#099", "stroke-width": 2, "stroke-opacity": 1});
+                        rectBox.attr({"x":1000,"y":1000});
+                    })
+
+
+        }
+
+        rectBox.mouseover(function(){
+            this.attr({"x":rectBoxXY.x,"y":rectBoxXY.y})
+        })
+
+
+    }
+</script>
+</body>
+</html>

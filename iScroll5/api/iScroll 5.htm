@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html class="translated-ltr">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+
+    <title>iScroll 5，平滑滚动的网页</title>
+    <meta name="description" content="iScroll is a high performance, small footprint, dependency free, multi-platform javascript scroller">
+
+    <script src="./iScroll 5_files/cb=gapi.loaded_1" async=""></script>
+    <script src="./iScroll 5_files/cb=gapi.loaded_0" async=""></script>
+    <script type="text/javascript" async="" src="./iScroll 5_files/platform.js" gapi_processed="true"></script>
+    <script id="twitter-wjs" src="./iScroll 5_files/widgets.js"></script>
+    <script type="text/javascript" src="./iScroll 5_files/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="./iScroll 5_files/scrollspy.js"></script>
+
+    <style type="text/css">
+        * {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        body, h1, h2, h3, p, ul, li {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            line-height: 1;
+        }
+
+        body {
+            font-size: 14px;
+            font-family: ubuntu, helvetica, arial, sans-serif;
+            background: #eaefef;
+            color: #222;
+        }
+
+        h1, h2, h3 {
+            font-family: georgia, 'times new roman', serif;
+            color: #165392;
+        }
+
+        h2, h3 {
+            margin-top: 2em;
+        }
+
+        ul, li {
+            line-height: 140%;
+            list-style: none;
+        }
+
+        li {
+            margin-bottom: 0.2em;
+        }
+
+        .wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 20px 20px 800px 20px;
+        }
+
+        .content {
+            width: 80%;
+            float: right;
+        }
+
+        .content ul {
+            padding-left: 2em;
+        }
+
+        .content li {
+            list-style: square;
+        }
+
+        .sidebar {
+            float: left;
+            width: 20%;
+        }
+
+        .sidebar a {
+            color: #999;
+        }
+
+        .nav {
+            position: fixed;
+        }
+
+        p {
+            padding: 0.8em 0;
+            line-height: 140%;
+        }
+
+        small {
+            color: #888;
+            font-size: 1em;
+        }
+
+        a {
+            color: #b5123d;
+        }
+
+        code {
+            font-family: monospace;
+            background: rgba(0, 0, 0, 0.05);
+            color: #256cb5;
+            padding: 2px;
+        }
+
+        pre {
+            background: rgba(0, 0, 0, 0.05);
+            padding: 1.2em;
+            border-left: 2px solid #256cb5;
+            font-size: 0.9em;
+            line-height: 120%;
+        }
+
+        pre code {
+            background: transparent;
+            color: #333;
+            padding: 0;
+        }
+
+        .tip {
+            background: #e9f9d2 url(tip.png) 10px 10px no-repeat;
+            -webkit-background-size: 75px 92px;
+            -moz-background-size: 75px 92px;
+            -o-background-size: 75px 92px;
+            background-size: 75px 92px;
+            padding: 0 0.8em 0 98px;
+            min-height: 112px
+        }
+
+        .important {
+            background: #f9f6d2;
+            padding: 0 0.8em;
+        }
+
+        .active a {
+            font-weight: bold;
+            color: #b5123d;
+        }
+
+        .console {
+            width: 100%;
+            float: left;
+            margin: 0 0 2em 0;
+            padding: 0 !important;
+        }
+
+        .console li {
+            display: block;
+            float: left;
+            margin-right: 1em;
+            list-style: none;
+        }
+
+        .console a {
+            display: block;
+            background: #165392;
+            color: #f3f3f3;
+            text-decoration: none;
+            padding: 1em;
+            border-radius: 3px;
+            border-top: 1px solid #6c9dd0;
+            border-bottom: 5px solid #0c325a;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3)
+        }
+
+        .right {
+            float: right !important;
+        }
+
+    </style>
+    <link type="text/css" rel="stylesheet" charset="UTF-8" href="./iScroll 5_files/translateelement.css">
+</head>
+<body data-twttr-rendered="true">
+<div class="wrapper">
+<div class="content">
+<ul class="console">
+    <li><a href="https://github.com/cubiq/iscroll/archive/master.zip" class="download"><span><span>下载</span></span></a>
+    </li>
+    <li><a href="https://github.com/cubiq/iscroll/" class="download"><span><span>叉在GitHub上</span></span></a></li>
+    <li><a href="http://iscrolljs.com/iscroll-doc.pdf" class="download"><span><span>PDF手册</span></span></a></li>
+    <li class="right">
+        <iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" src="about:blank"
+                class="twitter-share-button twitter-tweet-button twitter-share-button twitter-count-vertical"
+                title="微博分享Tweet按钮" data-twttr-rendered="true" style="width: 59px; height: 62px;"></iframe>
+    </li>
+    <li class="right">
+        <div id="___plusone_0"
+             style="text-indent: 0px; margin: 0px; padding: 0px; border-style: none; float: none; line-height: normal; font-size: 1px; vertical-align: baseline; display: inline-block; width: 50px; height: 60px; background: transparent;">
+            <iframe frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no"
+                    style="position: static; top: 0px; width: 50px; margin: 0px; border-style: none; left: 0px; visibility: visible; height: 60px;"
+                    tabindex="0" vspace="0" width="100%" id="I0_1415960105757" name="I0_1415960105757"
+                    src="./iScroll 5_files/fastbutton.htm" data-gapiattached="true" title="1"></iframe>
+        </div>
+    </li>
+</ul>
+
+<h1 id="intro"><span><span>iScroll，平滑滚动的网页</span></span></h1>
+
+<p><span><span>iScroll是一种高性能，小体积，无依赖性，跨平台的JavaScript滚动。</span></span></p>
+
+<p><span><span>它适用于台式机，移动和智能电视。</span><span>它的性能和尺寸大力优化，从而提供对现代一样，老设备的平滑效果。</span></span></p>
+
+<p><span><span>iScroll不只是</span></span><em><span><span>滚动</span></span></em><span><span>。</span><span>它可以处理需要与用户交互的移动任何元件。</span><span>它增加了滚动，缩放，平移，无限滚动，视差滚动，旋转木马到你的项目和管理要做到这一点，在短短4KB。</span><span>给它一个扫帚，它也将清理你的办公室。</span></span>
+</p>
+
+<p><span><span>即使在平台原生的滚动是不够好，iScroll增加了功能，这将是不可能的，否则。</span><span>具体做法是：</span></span></p>
+<ul>
+    <li><span><span>精细地控制滚动条的位置，即使是在势头。</span><span>您可以随时获取和设置X，滚动条的y坐标。</span></span></li>
+    <li><span><span>动画可定制的用户定义的缓动函数（反弹，有弹性，背部，...）。</span></span></li>
+    <li><span><span>您可以轻松地勾了过多的自定义事件（onBeforeScrollStart，onScrollStart，onScroll，onScrollEnd，一抖，...）。</span></span></li>
+    <li><span><span>开箱即用的多平台支持。</span><span>从较旧的Andr​​oid设备到最新的iPhone手机，从浏览器到Internet Explorer。</span></span></li>
+</ul>
+<h2 id="iscroll-versions"><span><span>iScroll的多面</span></span></h2>
+
+<p><span><span>iScroll是所有关于优化。</span><span>达到最高性能它​​已被分成多个版本。</span><span>你可以选择更适合您需要的版本。</span></span></p>
+
+<p><span><span>目前，我们有以下的香水：</span></span></p>
+<ul>
+    <li><strong><span><span>iscroll.js</span></span></strong><span><span>，它是通用的脚本。</span><span>它包含最常用的功能与补助非常高的性能在小型脚印尺寸。</span></span>
+    </li>
+    <li><strong><span><span>iscroll-lite.js</span></span></strong><span><span>，它是主要的脚本的精简版。</span><span>它不支持快照，滚动条，鼠标滚轮，按键绑定。</span><span>但是，如果你需要的是滚动（特别是手机）</span></span><em><span><span>iScroll精简版</span></span></em><span><span>是最小的，最快的解决方案。</span></span>
+    </li>
+    <li>
+        <strong><span><span>iscroll-probe.js</span></span></strong><span><span>，探讨当前的滚动位置是一个艰巨的任务，这就是为什么我决定建立一个专门的版本吧。</span><span>如果您需要了解在任何特定时间的滚动位置，这是iScroll你。</span><span>（我在做一些测试，这可能最终在常规</span></span><code><span><span>iscroll.js</span></span></code><span><span>脚本，所以保持它的眼睛）。</span></span>
+    </li>
+    <li><strong><span><span>iscroll-zoom.js</span></span></strong><span><span>，增加了变焦的标准滚动。</span></span></li>
+    <li><strong><span><span>iscroll-infinite.js</span></span></strong><span><span>，可以做无限的缓存滚动。</span><span>处理元素很长的列表是不容易的用于移动设备。</span></span><em><span><span>iScroll无限</span></span></em><span><span>使用缓存机制，可以让您滚动元素的潜在的无穷数。</span></span>
+    </li>
+</ul>
+<h2 id="getting-started"><span><span>入门</span></span></h2>
+
+<p><span><span>所以，你想成为一个iScroll大师。</span><span>很酷，因为这是我会让你进去。</span></span></p>
+
+<p>
+    <span><span>学习iScroll的最好方法是通过查看演示。</span><span>在档案中，你会发现一个</span></span><code><span><span>演示</span></span></code><span><span>文件夹</span></span><a
+        href="https://github.com/cubiq/iscroll/tree/master/demos"><span><span>塞满了的例子</span></span></a><span><span>。</span><span>大多数的脚本特征概述在那里。</span></span>
+</p>
+
+<p><code><span><span>IScroll</span></span></code><span><span>是需要针对每个滚动区域来启动一个类。</span><span>有没有限制iScrolls的数量，你可以在每个页面，如果不是强加的设备CPU
+    /内存。</span></span></p>
+
+<p><span><span>尽量保持DOM尽可能简单。</span><span>iScroll使用硬件合成层，但有一个限制元素的硬件可以处理。</span></span></p>
+
+<p><span><span>最佳的HTML结构是：</span></span></p>
+<pre><code><span><span>&lt;DIV ID =“包装”&gt;</span></span><span></span><span><span>
+    &lt;UL&gt;</span></span><span></span><span><span>
+    &lt;LI&gt; ... &lt;/ LI&gt;</span></span><span></span><span><span>
+    &lt;LI&gt; ... &lt;/ LI&gt;</span></span><span></span><span><span>
+    ...</span></span><span></span><span><span>
+    &lt;/ ul&gt;</span></span><span></span><span><span>
+    &lt;/ DIV&gt;</span></span><span></span>
+</code></pre>
+<p>
+    <span><span>iScroll必须施加到滚动区域的包装。</span><span>在上面的例子中所述</span></span><code><span><span>的UL</span></span></code><span><span>元素将被滚动。</span><span>只有容器元素的第一个孩子被滚动，更多的孩子被简单地忽略。</span></span>
+</p>
+
+<div class="tip">
+    <p>
+        <code><span><span>箱阴影</span></span></code><span><span>，</span></span><code><span><span>透明度</span></span></code><span><span>，</span></span><code><span><span>文字阴影</span></span></code><span><span>和alpha通道的所有属性不与硬件加速去很好地结合在一起。</span><span>滚动可能好看一些元素，但只要你的DOM变得更加复杂，你会开始遇到滞后和跳跃。</span></span>
+    </p>
+
+    <p><span><span>有时一个背景图像来模拟阴影的性能比更好</span></span><code><span><span>箱阴影</span></span></code><span><span>。</span><span>底线是：实验用的CSS属性，你会出现在一个小的CSS变化可以做到在性能上的差异感到惊讶。</span></span>
+    </p>
+</div>
+
+<p><span><span>最小的呼叫发起的脚本是如下：</span></span></p>
+<pre><code><span><span>&lt;脚本类型=“文/ JavaScript的”&gt;</span></span><span></span><span><span>
+    VAR myScroll =新IScroll（'＃包装'）;</span></span><span></span><span><span>
+    &lt;/脚本&gt;</span></span><span></span>
+</code></pre>
+<p><span><span>第一参数可以是表示该滚动容器元素的DOM选择器或一个参考元件本身的字符串。</span><span>下面是一个有效的语法太：</span></span></p>
+<pre><code><span><span>VAR包装=的document.getElementById（'包装'）;</span></span><span></span><span><span>
+    VAR myScroll =新IScroll（包装）;</span></span><span></span>
+</code></pre>
+<p>
+    <span><span>所以基本上，你要么通过直接的元素，或将给予一个字符串</span></span><code><span><span>querySelector</span></span></code><span><span>。</span><span>因此，选择一个包装它的类名，而不是ID，你会怎么做：</span></span>
+</p>
+<pre><code><span><span>VAR myScroll =新IScroll（'包装'）;
+</span></span></code></pre>
+<p>
+    <span><span>需要注意的是iScroll使用</span></span><code><span><span>querySelector</span></span></code><span><span>不</span></span><code><span><span>querySelectorAll</span></span></code><span><span>，所以选择器的仅有的第一次出现时使用。</span><span>如果您需要iScroll应用到多个对象，你就必须建立自己的周期。</span></span>
+</p>
+
+<div class="tip">
+    <p><span><span>你并不需要严格的实例赋给一个变量（</span></span><code><span><span>myScroll</span></span></code><span><span>），但它是很方便的，以保持一个参考iScroll。</span></span>
+    </p>
+
+    <p><span><span>例如，你可以稍后检查的</span></span><a
+            href="http://iscrolljs.com/#scroller-info"><span><span>滚动条位置</span></span></a><span><span>或</span></span><a
+            href="http://iscrolljs.com/#destroy"><span><span>卸载不必要的事件</span></span></a><span><span>的时候，你不需要iScroll了。</span></span>
+    </p>
+</div>
+
+<h2 id="initialization"><span><span>初始化</span></span></h2>
+
+<p><span><span>该iScroll需要在DOM准备启动。</span><span>最安全的办法是启动它的窗口</span></span><code><span><span>的onload</span></span></code><span><span>事件。</span></span><code><span><span>DOMContentLoaded</span></span></code><span><span>或内联的初始化也很好，但请记住，脚本需要知道的滚动区域的高度/宽度。</span><span>如果您有没有明确的宽度/高度报关图像，iScroll将最有可能结束了一个错误的滚动条大小。</span></span>
+</p>
+
+<div class="important">
+    <p><span><span>添加</span></span><code><span><span>的位置是：相对</span></span></code><span><span>或</span></span><code><span><span>绝对</span></span></code><span><span>的滚动容器（包装）。</span><span>这本身通常可以解决大部分的问题，错误地计算包装尺寸。</span></span>
+    </p>
+</div>
+
+<p><span><span>综上所述，最小的iScroll配置是：</span></span></p>
+<pre><code><span><span>&lt;HEAD&gt;</span></span><span></span><span><span>
+    ...</span></span><span></span><span><span>
+    &lt;脚本类型=“文/ JavaScript的”SRC =“iscroll.js”&gt; &lt;/ SCRIPT&gt;</span></span><span></span><span><span>
+    &lt;脚本类型=“文/ JavaScript的”&gt;</span></span><span></span><span><span>
+    VAR myScroll;</span></span><span></span><span><span>
+    加载函数（）{</span></span><span></span><span><span>
+    myScroll =新IScroll（'＃包装'）;</span></span><span></span><span><span>
+    }</span></span><span></span><span><span>
+    &lt;/脚本&gt;</span></span><span></span><span><span>
+    &lt;/ HEAD&gt;</span></span><span></span><span><span>
+    ...</span></span><span></span><span><span>
+    &lt;BODY的onload =“加载（）”&gt;</span></span><span></span><span><span>
+    &lt;DIV ID =“包装”&gt;</span></span><span></span><span><span>
+    &lt;UL&gt;</span></span><span></span><span><span>
+    &lt;LI&gt; ... &lt;/ LI&gt;</span></span><span></span><span><span>
+    &lt;LI&gt; ... &lt;/ LI&gt;</span></span><span></span><span><span>
+    ...</span></span><span></span><span><span>
+    &lt;/ ul&gt;</span></span><span></span><span><span>
+    &lt;/ DIV&gt;</span></span><span></span><span><span>
+    &lt;/ BODY&gt;</span></span><span></span>
+</code></pre>
+<p><span><span>请参阅</span></span><a href="http://lab.cubiq.org/iscroll5/demos/barebone/"><span><span>准系统例如</span></span></a><span><span>对最小的CSS
+    / HTML要求的更多细节。</span></span></p>
+
+<div class="tip">
+    <p><span><span>如果你有一个复杂的DOM，有时聪明，从加少许延迟</span></span><code><span><span>的onload</span></span></code><span><span>事件iScroll初始化。</span><span>执行iScroll用100或200毫秒的延迟使浏览器稍微休息一下，可以节省你的屁股。</span></span>
+    </p>
+</div>
+
+<h2 id="configuring"><span><span>配置iScroll</span></span></h2>
+
+<p><span><span>iScroll可以通过在初始化阶段传递第二个参数进行配置。</span></span></p>
+<pre><code><span><span>VAR myScroll =新IScroll（'＃包装'，{</span></span><span></span><span><span>
+    鼠标滚轮：真实，</span></span><span></span><span><span>
+    滚动：真</span></span><span></span><span><span>
+    }）;</span></span><span></span>
+</code></pre>
+<p><span><span>上面的例子中打开鼠标滚轮的支持和滚动条。</span></span></p>
+
+<p>
+    <span><span>初始化完成后，你可以访问</span></span><em><span><span>归</span></span></em><span><span>从价值观</span></span><code><span><span>的选择</span></span></code><span><span>对象。</span><span>例如：</span></span>
+</p>
+<pre><code><span><span>console.dir（myScroll.options）;
+</span></span></code></pre>
+<p>
+    <span><span>以上将返回配置</span></span><code><span><span>myScroll</span></span></code><span><span>实例上运行。</span><span>通过</span></span><em><span><span>归一化</span></span></em><span><span>我的意思是说，如果你设置</span></span><code><span><span>useTransform：真</span></span></code><span><span>（例如），但浏览器不支持CSS变换，</span></span><code><span><span>useTransform</span></span></code><span><span>将是</span></span><code><span><span>错误的</span></span></code><span><span>。</span></span>
+</p>
+
+<h2 id="the-core"><span><span>了解核心</span></span></h2>
+
+<p>
+    <span><span>iScroll使用各种技术的基础上的设备/浏览器功能进行滚动。</span></span><strong><span><span>通常情况下，你不需要配置的发动机</span></span></strong><span><span>，iScroll足够聪明挑选最适合你的。</span></span>
+</p>
+
+<p><span><span>然而就明白了其中的机制iScroll工作，以及如何对其进行配置是非常重要的。</span></span></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span> useTransform</span></span></h3>
+<p>
+    <span><span>默认情况下，该发动机采用了</span></span><code><span><span>变换</span></span></code><span><span>的CSS属性。</span><span>此设置为</span></span><code><span><span>假</span></span></code><span><span>春联就像我们是在2007年，即：使用</span></span><code><span><span>前</span></span></code><span><span>
+    / </span></span><code><span><span>左</span></span></code><span><span>（因而滚轮必须绝对定位）。</span></span></p>
+
+<p><span><span>滚动敏感内容如Flash，内部框架和视频时，这可能是有用的，但要注意：性能损失是巨大的。</span></span></p>
+
+<p><span><span>默认值：</span></span><code><span><span>真</span></span></code></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span> useTransition</span></span></h3>
+<p>
+    <span><span>iScroll使用CSS过渡到执行的动画（动力和反弹）。</span><span>通过这种设置为</span></span><code><span><span>假</span></span></code><span><span>，</span></span><code><span><span>requestAnimationFrame</span></span></code><span><span>来代替。</span></span>
+</p>
+
+<p><span><span>在现代浏览器不同的是几乎没有明显的。</span><span>在旧设备上的过渡有更好的表现。</span></span></p>
+
+<p><span><span>默认值：</span></span><code><span><span>真</span></span></code></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span> HWCompositing</span></span></h3>
+<p>
+    <span><span>此选项将尝试把卷轴硬件层上通过追加</span></span><code><span><span>translateZ（0）</span></span></code><span><span>到变换的CSS属性。</span><span>这极大地增加特别是在移动性能，但在有些情况下，你可能需要禁用它（特别是如果你有太多的元素和硬件跟不上）。</span></span>
+</p>
+
+<p><span><span>默认值：</span></span><code><span><span>真</span></span></code></p>
+
+<div class="important">
+    <p>
+        <span><span>如果不确定休假iScroll决定什么是最佳的配置。</span><span>为了获得最佳性能的所有上述选项应设置为</span></span><code><span><span>真实的</span></span></code><span><span>（或更好的让他们不确定的，因为它们会被自动设置为true）。</span><span>你可以试试如果你遇到打嗝和内存泄漏和他们一起玩。</span></span>
+    </p>
+</div>
+
+<h2 id="basic-features"><span><span>基本特征</span></span></h2>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span>反弹</span></span></h3>
+<p><span><span>当滚动条符合边界它执行一个小反弹动画。</span><span>禁用反弹可能有助于达成旧的或慢速设备平滑的结果。</span></span></p>
+
+<p><span><span>默认值：</span></span><code><span><span>真</span></span></code></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span>点击</span></span></h3>
+<p>
+    <span><span>要覆盖本机滚动iScroll具有抑制某些默认浏览器的行为，如鼠标点击。</span><span>如果你希望你的应用程序的响应</span></span><em><span><span>单击</span></span></em><span><span>事件中，你必须明确地将此选项设置为</span></span><code><span><span>真</span></span></code><span><span>。</span><span>请注意，我们建议使用的自定义</span></span><code><span><span>抽头</span></span></code><span><span>事件代替（见下文）。</span></span>
+</p>
+
+<p><span><span>默认值：</span></span><code><span><span>假的</span></span></code></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span> disableMouse </span>
+        <small><span>选项。</span></small>
+        <span> disablePointer </span>
+        <small><span>选项。</span></small>
+        <span> disableTouch</span></span><br>
+    <small><span></span></small>
+    <span></span><br>
+    <small><span></span></small>
+    <span></span></h3>
+<p><span><span>在默认情况下iScroll监听所有指针事件并响应所发生的第一个。</span><span>这似乎是一种资源的浪费，但功能检测已被证明十分不可靠的，这</span></span><em><span><span>聆听到所有</span></span></em><span><span>的办法，是我们最安全的赌注广泛的浏览器/设备的兼容性。</span></span>
+</p>
+
+<p><span><span>如果你有一个内部机制，设备检测，或者你事先知道你在哪里脚本将运行，您可能需要禁用所有事件设置你不需要（鼠标指针或触摸事件）。</span></span></p>
+
+<p><span><span>例如，要禁用鼠标和指针事件：</span></span></p>
+<pre><code><span><span>VAR myScroll =新IScroll（'＃包装'，{</span></span><span></span><span><span>
+    disableMouse：真实，</span></span><span></span><span><span>
+    disablePointer：真</span></span><span></span><span><span>
+    }）;</span></span><span></span>
+</code></pre>
+<p><span><span>默认值：</span></span><code><span><span>假的</span></span></code></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span> eventPassthrough</span></span></h3>
+<p>
+    <span><span>有时你想保留原生的垂直滚动，但可以添加一个水平iScroll（可能是旋转木马）。</span><span>将其设置为</span></span><code><span><span>真实</span></span></code><span><span>和iScroll区域会作何反应，只刷卡的水平。</span><span>垂直挥笔自然会滚动整个页面。</span></span>
+</p>
+
+<p><span><span>见</span></span><a href="http://lab.cubiq.org/iscroll5/demos/event-passthrough/"><span><span>事件直通演示</span></span></a><span><span>在移动设备上。</span><span>注意，这可以被设置为</span></span><code><span><span>“水平”</span></span></code><span><span>进行逆的行为（天然水平滚动，垂直iScroll）。</span></span>
+</p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span> freeScroll</span></span></h3>
+<p><span><span>（当你需要滚动，水平和垂直），这是很有用的主要是二维滚动条。</span><span>通常，当你开始滚动在一个方向上的其它被锁定。</span></span></p>
+
+<p>
+    <span><span>有时候，你只是想，没有约束的自由移动。</span><span>在这种情况下，你可以将此选项设置为</span></span><code><span><span>真</span></span></code><span><span>。</span><span>见</span></span><a
+        href="http://lab.cubiq.org/iscroll5/demos/2d-scroll/"><span><span>2D滚动演示</span></span></a><span><span>。</span></span>
+</p>
+
+<p><span><span>默认值：</span></span><code><span><span>假的</span></span></code></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span>键绑定</span></span></h3>
+<p><span><span>将此属性设置为</span></span><code><span><span>真</span></span></code><span><span>，以激活键盘（和遥控器）相互作用。</span><span>请参阅</span></span><a
+        href="http://iscrolljs.com/#key-bindings"><span><span>键绑定</span></span></a><span><span>一节以获取更多信息。</span></span>
+</p>
+
+<p><span><span>默认值：</span></span><code><span><span>假的</span></span></code></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span> invertWheelDirection</span></span></h3>
+<p><span><span>有意义当鼠标滚轮支承被激活，在这种情况下，它只是反转滚动方向。</span><span>（即走下去向上滚动，反之亦然）。</span></span></p>
+
+<p><span><span>默认值：</span></span><code><span><span>假的</span></span></code></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span>气势</span></span></h3>
+<p><span><span>可以打开/关闭的动量动画进行时，用户快速笔触在屏幕上。</span><span>关闭这个功能大大地提高性能。</span></span></p>
+
+<p><span><span>默认值：</span></span><code><span><span>真</span></span></code></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span>鼠标滚轮</span></span></h3>
+<p><span><span>听鼠标滚轮事件。</span></span></p>
+
+<p><span><span>默认值：</span></span><code><span><span>假的</span></span></code></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span>的preventDefault</span></span></h3>
+<p>
+    <span><span>要不要</span></span><code><span><span>的preventDefault（）</span></span></code><span><span>时，事件被触发。</span><span>这应留给</span></span><code><span><span>真正的</span></span></code><span><span>，除非你真的知道你在做什么。</span></span>
+</p>
+
+<p>
+    <span><span>见</span></span><code><span><span>preventDefaultException</span></span></code><span><span>在</span></span><a
+        href="http://iscrolljs.com/#advanced-features"><span><span>高级功能</span></span></a><span><span>更多的控制权的preventDefault行为。</span></span>
+</p>
+
+<p><span><span>默认值：</span></span><code><span><span>真</span></span></code></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span>滚动条</span></span></h3>
+<p><span><span>Wheter或不显示默认的滚动条。</span><span>查看更多在</span></span><a href="http://iscrolljs.com/#scrollbar"><span><span>滚动条</span></span></a><span><span>部分。</span></span>
+</p>
+
+<p><span><span>默认值：</span></span><code><span><span>假的</span></span></code><span><span>。</span></span></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span> scrollX </span>
+        <small><span>选项。</span></small>
+        <span> scrollY</span></span><br>
+    <small><span></span></small>
+    <span></span></h3>
+<p>
+    <span><span>默认情况下只有垂直滚动功能。</span><span>如果你需要水平滚动，你必须设置</span></span><code><span><span>scrollX</span></span></code><span><span>为</span></span><code><span><span>真</span></span></code><span><span>。</span><span>见</span></span><a
+        href="http://lab.cubiq.org/iscroll5/demos/horizontal/"><span><span>水平的演示</span></span></a><span><span>。</span></span>
+</p>
+
+<p><span><span>又见</span></span><strong><span><span>freeScroll</span></span></strong><span><span>选项。</span></span></p>
+
+<p>
+    <span><span>默认值：</span></span><code><span><span>scrollX：假的</span></span></code><span><span>，</span></span><code><span><span>scrollY：真</span></span></code>
+</p>
+
+<div class="important">
+    <p><span><span>需要注意的是</span></span><code><span><span>scrollX /
+        Y：真的</span></span></code><span><span>有同样的效果</span></span><code><span><span>溢出：汽车</span></span></code><span><span>。</span><span>设定一个方向，以</span></span><code><span><span>虚假</span></span></code><span><span>有助于腾出一些检查，因此CPU周期。</span></span>
+    </p>
+</div>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span> STARTX </span>
+        <small><span>选项。</span></small>
+        <span> startY</span></span><br>
+    <small><span></span></small>
+    <span></span></h3>
+<p><span><span>默认情况下iScroll开始于</span></span><code><span><span>0，0</span></span></code><span><span>（左上）的位置，你可以指示滚动开球在不同的位置。</span></span>
+</p>
+
+<p><span><span>默认值：</span></span><code><span><span>0</span></span></code></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span>水龙头</span></span></h3>
+<p><span><span>设置这</span></span><code><span><span>真</span></span></code><span><span>让iScroll发出一个自定义的</span></span><code><span><span>水龙头</span></span></code><span><span>时，滚动区域被点击/挖，但不滚动的事件。</span></span>
+</p>
+
+<p><span><span>这是建议的方式来处理带有可点击元素的用户交互。</span><span>听敲击事件都将添加一个事件监听器，你会做一个标准的事件。</span><span>例如：</span></span></p>
+<pre><code><span><span>element.addEventListener（'水龙头'，doSomething的，假的）; </span><span>\\本地</span></span><span></span><span><span>
+    $（'＃元素“）对（'水龙头'，doSomething的）; </span><span>\\的jQuery</span></span><span></span>
+</code></pre>
+<p><span><span>您也可以通过传递一个字符串，自定义事件名称。</span><span>例如：</span></span></p>
+<pre><code><span><span>水龙头：“myCustomTapEvent”
+</span></span></code></pre>
+<p><span><span>在这种情况下，你听</span></span><code><span><span>myCustomTapEvent</span></span></code><span><span>。</span></span>
+</p>
+
+<p><span><span>默认值：</span></span><code><span><span>假的</span></span></code></p>
+
+<h2 id="scrollbars"><span><span>滚动条</span></span></h2>
+
+<p>
+    <span><span>滚动条都超过正是顾名思义。</span><span>其实在内部，他们被引用作为</span></span><em><span><span>指标</span></span></em><span><span>。</span></span>
+</p>
+
+<p><span><span>一个指标监听滚轮的位置，通常它只是显示了其相对于整个位置，但它能做的就是这么多。</span></span></p>
+
+<p><span><span>让我们先从基础。</span></span></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span>滚动条</span></span></h3>
+<p><span><span>正如我们在提到的</span></span><a href="http://iscrolljs.com/#basic-features"><span><span>基本功能部分</span></span></a><span><span>有，你该怎么做才能激活灿烂的滚动条只有一件事，一件事是：</span></span>
+</p>
+<pre><code><span><span>VAR myScroll =新IScroll（'＃包装'，{</span></span><span></span><span><span>
+    滚动：真</span></span><span></span><span><span>
+    }）;</span></span><span></span>
+</code></pre>
+<p><span><span>当然，默认的行为可以被个性化。</span></span></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span> fadeScrollbars</span></span></h3>
+<p>
+    <span><span>当不使用滚动条消失。</span><span>离开这个</span></span><code><span><span>假</span></span></code><span><span>以备用资源。</span></span>
+</p>
+
+<p><span><span>默认值：</span></span><code><span><span>假的</span></span></code></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span> interactiveScrollbars</span></span></h3>
+<p><span><span>滚动条变为可拖动和用户可以与它进行交互。</span></span></p>
+
+<p><span><span>默认值：</span></span><code><span><span>假的</span></span></code></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span> resizeScrollbars</span></span></h3>
+<p>
+    <span><span>基于包装器和卷轴的宽度/高度之间的比例的滚动条的大小的改变。</span><span>此设置为</span></span><code><span><span>假</span></span></code><span><span>，使滚动条固定的大小。</span><span>这可能是在壳体的自定义风格的滚动条（有用</span></span><a
+        href="http://iscrolljs.com/#styling-the-scrollbar"><span><span>见下文</span></span></a><span><span>）。</span></span>
+</p>
+
+<p><span><span>默认值：</span></span><code><span><span>真</span></span></code></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span> shrinkScrollbars</span></span></h3>
+<p><span><span>当滚动的边界外侧的滚动条是由少量的收缩。</span></span></p>
+
+<p>
+    <span><span>有效值为：</span></span><code><span><span>'夹'</span></span></code><span><span>和</span></span><code><span><span>'规模'</span></span></code><span><span>。</span></span>
+</p>
+
+<p><code><span><span>“剪辑”</span></span></code><span><span>只是移动它的容器外的指示灯，给人的感觉是，滚动条收缩，但它只是搬出屏幕。</span><span>如果你能忍受在视觉效果上此选项，</span></span><strong><span><span>极大地提高了整体性能</span></span></strong><span><span>。</span></span>
+</p>
+
+<p><code><span><span>“规模”</span></span></code><span><span>关闭</span></span><code><span><span>useTransition</span></span></code><span><span>因此所有的动画都配有</span></span><code><span><span>requestAnimationFrame</span></span></code><span><span>。</span><span>指示器实际上是变化的尺寸和最终的结果是更好的眼睛。</span></span>
+</p>
+
+<p><span><span>默认值：</span></span><code><span><span>假的</span></span></code></p>
+
+<div class="tip">
+    <p><span><span>注意，改变大小不能由GPU来执行，所以</span></span><code><span><span>比例</span></span></code><span><span>是所有的CPU。</span></span>
+    </p>
+
+    <p>
+        <span><span>如果您的应用程序在多种设备上运行我的建议是关掉这个选项</span></span><code><span><span>'规模'</span></span></code><span><span>，</span></span><code><span><span>'夹'</span></span></code><span><span>或</span></span><code><span><span>虚假的</span></span></code><span><span>基础上，平台响应（例如：您可以将其设置为较旧的移动设备的</span></span><code><span><span>“剪辑”</span></span></code><span><span>，并在桌面浏览器</span></span><code><span><span>“规模”</span></span></code><span><span>）。</span></span>
+    </p>
+</div>
+
+<p><span><span>看到</span></span><a
+        href="http://lab.cubiq.org/iscroll5/demos/scrollbars/"><span><span>滚动条的演示</span></span></a><span><span>。</span></span>
+</p>
+
+<h3 id="styling-the-scrollbar"><span><span>造型滚动条</span></span></h3>
+
+<p>
+    <span><span>所以，你不喜欢默认的滚动条样式，你认为你可以做的更好。</span><span>帮助你自己！</span><span>iScroll使得敷料滚动一个单元。</span><span>首先，设置</span></span><code><span><span>滚动条</span></span></code><span><span>选择</span></span><code><span><span>“自定义”</span></span></code><span><span>：</span></span>
+</p>
+<pre><code><span><span>VAR myScroll =新IScroll（'＃包装'，{</span></span><span></span><span><span>
+    滚动条：“自定义”</span></span><span></span><span><span>
+    }）;</span></span><span></span>
+</code></pre>
+<p><span><span>然后使用下面的CSS类样式的小混蛋。</span></span></p>
+<ul>
+    <li><strong><span><span>.iScrollHorizontalScrollbar</span></span></strong><span><span>，这个被施加到水平容器。</span><span>实际上承载滚动条指示器的元素。</span></span>
+    </li>
+    <li><strong><span><span>.iScrollVerticalScrollbar</span></span></strong><span><span>，与上述相同的，但对于垂直容器。</span></span>
+    </li>
+    <li><strong><span><span>.iScrollIndicator</span></span></strong><span><span>，实际的滚动指示器。</span></span></li>
+    <li>
+        <strong><span><span>.iScrollBothScrollbars</span></span></strong><span><span>，这是添加到容器中的元素时，两个滚动条的显示。</span><span>通常只有一个（水平或垂直）是可见的。</span></span>
+    </li>
+</ul>
+<p><span><span>该</span></span><a
+        href="http://lab.cubiq.org/iscroll5/demos/styled-scrollbars/"><span><span>风格的滚动演示</span></span></a><span><span>应该比我糟糕的解释更清楚的东西。</span></span>
+</p>
+
+<p><span><span>如果设置</span></span><code><span><span>resizeScrollbars：假</span></span></code><span><span>你可以做一个固定大小的滚动条，否则会根据滚动条长度来调整。</span></span>
+</p>
+
+<p><span><span>请继续阅读下节的一个启示，这将撼动你的世界。</span></span></p>
+
+<h2 id="indicators"><span><span>指标</span></span></h2>
+
+<p><span><span>以上所有滚动条选项在现实中只是包装低电平</span></span><code><span><span>指标</span></span></code><span><span>选项。</span><span>这看上去或多或少是这样的：</span></span>
+</p>
+<pre><code><span><span>VAR myScroll =新IScroll（'＃包装'，{</span></span><span></span><span><span>
+    指标：{</span></span><span></span><span><span>
+    EL：[元素|元素选择]</span></span><span></span><span><span>
+    褪色：假的，</span></span><span></span><span><span>
+    ignoreBoundaries：假的，</span></span><span></span><span><span>
+    互动性：假的，</span></span><span></span><span><span>
+    listenX：真实，</span></span><span></span><span><span>
+    listenY：真实，</span></span><span></span><span><span>
+    调整：真正的，</span></span><span></span><span><span>
+    收缩：假的，</span></span><span></span><span><span>
+    speedRatioX：0，</span></span><span></span><span><span>
+    speedRatioY：0，</span></span><span></span><span><span>
+    }</span></span><span></span><span><span>
+    }）;</span></span><span></span>
+</code></pre>
+<h3>
+    <small><span><span>options.indicators。</span></span></small>
+    <span><span>埃尔</span></span></h3>
+<p><span><span>这是持有引用滚动容器元素的强制性参数。</span><span>容器内的第一个孩子将是指标。</span><span>注意，滚动条可在文档上的任何位置，它并不需要是卷轴的包装内。</span><span>你开始察觉这种工具的力量？</span></span>
+</p>
+
+<p><span><span>有效的语法是：</span></span></p>
+<pre><code><span><span>指标：{</span></span><span></span><span><span>
+    EL：的document.getElementById（'指标'）</span></span><span></span><span><span>
+    }</span></span><span></span>
+</code></pre>
+<p><span><span>或者简单地说：</span></span></p>
+<pre><code><span><span>指标：{</span></span><span></span><span><span>
+    EL：“#indicator”</span></span><span></span><span><span>
+    }</span></span><span></span>
+</code></pre>
+<h3>
+    <small><span><span>options.indicators。</span></span></small>
+    <span><span> ignoreBoundaries</span></span></h3>
+<p>
+    <span><span>这告诉指标忽略了它的容器所规定的界限。</span><span>既然我们可以改变滚动条的速度比，只是让滚动条去是很有用的。</span><span>说你想要的指标去快一倍的滚动条，它会很快达到其运行结束。</span><span>该选项用于</span></span><a
+        href="http://iscrolljs.com/#parallax-scrolling"><span><span>视差滚动</span></span></a><span><span>。</span></span>
+</p>
+
+<p><span><span>默认值：</span></span><code><span><span>假的</span></span></code></p>
+
+<h3>
+    <small><span><span>options.indicators。</span></span></small>
+    <span><span> listenX </span>
+        <small><span>options.indicators。</span></small>
+        <span> listenY</span></span><br>
+    <small><span></span></small>
+    <span></span></h3>
+<p><span><span>到轴上的指示灯听。</span><span>它可以只是一个或两个。</span></span></p>
+
+<p><span><span>默认值：</span></span><code><span><span>真</span></span></code></p>
+
+<h3>
+    <small><span><span>options.indicators。</span></span></small>
+    <span><span> speedRatioX </span>
+        <small><span>options.indicators。</span></small>
+        <span> speedRatioY</span></span><br>
+    <small><span></span></small>
+    <span></span></h3>
+<p><span><span>速度指示器移动相对于所述主​​卷轴尺寸。</span><span>默认情况下，这是自动设置的。</span><span>你很少需要修改这个值。</span></span></p>
+
+<p><span><span>默认值：</span></span><code><span><span>0</span></span></code></p>
+
+<h3>
+    <small><span><span>options.indicators.</span></span></small>
+    <span><span> fade </span>
+        <small><span>options.indicators.</span></small>
+        <span> interactive </span>
+        <small><span>options.indicators.</span></small>
+        <span> resize </span>
+        <small><span>options.indicators.</span></small>
+        <span> shrink</span></span><br>
+    <small><span></span></small>
+    <span></span><br>
+    <small><span></span></small>
+    <span></span><br>
+    <small><span></span></small>
+    <span></span></h3>
+<p><span><span>这些都是我们在探讨同一个选项</span></span><a
+        href="http://iscrolljs.com/#scrollbars"><span><span>的滚动条部分</span></span></a><span><span>，我不会侮辱你的智商和复述。</span></span>
+</p>
+
+<div class="important">
+    <p>
+        <strong><span><span>不要过流。</span><span>这将是坏的！</span></span></strong><span><span>不要混合使用滚动条语法（</span></span><code><span><span>options.scrollbars</span></span></code><span><span>，</span></span><code><span><span>options.fadeScrollbars</span></span></code><span><span>，</span></span><code><span><span>options.interactiveScrollbars</span></span></code><span><span>，...）的指标！</span><span>使用一个或另一个。</span></span>
+    </p>
+</div>
+
+<p><span><span>有看</span></span><a
+        href="http://lab.cubiq.org/iscroll5/demos/minimap/"><span><span>小地图的演示</span></span></a><span><span>得到瞄了一眼的力量</span></span><code><span><span>指标</span></span></code><span><span>选项。</span></span>
+</p>
+
+<p><span><span>你的wittiest会注意到，</span></span><code><span><span>指标</span></span></code><span><span>实际上是复数......是的，没错，传递对象的数组，你可以有指标几乎有无限多种。</span><span>我不知道你需要他们，但是，嘿！</span><span>我是谁争论的滚动条的偏好？</span></span>
+</p>
+
+<h2><span id="parallax-scrolling"><span><span>视差滚动</span></span></span></h2>
+
+<p><span><span>视差滚动只是一个</span></span><em><span><span>附带损害</span></span></em><span><span>的</span></span><a
+        href="http://iscrolljs.com/#indicators"><span><span>指标</span></span></a><span><span>功能。</span></span></p>
+
+<p>
+    <span><span>一个指标只是后面施加到主卷轴的移动和动画的层。</span><span>如果你看到这样的你就会明白这背后的功能的能力。</span><span>这个插件，你可以有任意数量的指标和视差滚动早餐。</span></span>
+</p>
+
+<p><span><span>请参考</span></span><a href="http://lab.cubiq.org/iscroll5/demos/parallax/"><span><span>视差的演示</span></span></a><span><span>。</span></span>
+</p>
+
+<h2><span><span>滚动编程</span></span></h2>
+
+<p><span><span>你傻！</span><span>当然，你可以programmaticaly滚动！</span></span></p>
+
+<h3><span><span>scrollTo（X，Y，时间，缓解）</span></span></h3>
+
+<p><span><span>说你iScroll实例驻留到</span></span><code><span><span>myScroll</span></span></code><span><span>变量。</span><span>您可以轻松地滚动到使用以下语法的任何位置：</span></span>
+</p>
+<pre><code><span><span>myScroll.scrollTo（0，-100）;
+</span></span></code></pre>
+<p><span><span>这将通过100像素向下滚动。</span><span>记住：0总是左上角。</span><span>要滚动你必须通过负数。</span></span></p>
+
+<p>
+    <code><span><span>时间</span></span></code><span><span>和</span></span><code><span><span>宽松</span></span></code><span><span>是可选的。</span><span>他们规定时间（毫秒）和动画分别缓和作用。</span></span>
+</p>
+
+<p><span><span>缓动功能可在</span></span><code><span><span>IScroll.utils.ease</span></span></code><span><span>对象。</span><span>例如申请1秒的弹性宽松，你会怎么做：</span></span>
+</p>
+<pre><code><span><span>myScroll.scrollTo（0，-100，1000，IScroll.utils.ease.elastic）;
+</span></span></code></pre>
+<p>
+    <span><span>可用的选项有：</span></span><code><span><span>二次方</span></span></code><span><span>，</span></span><code><span><span>圆</span></span></code><span><span>，</span></span><code><span><span>背</span></span></code><span><span>，</span></span><code><span><span>反弹</span></span></code><span><span>，</span></span><code><span><span>弹性</span></span></code><span><span>。</span></span>
+</p>
+
+<h3><span><span>scrollBy（X，Y，时间，缓解）</span></span></h3>
+
+<p><span><span>与上述相同，但X和Y是相对于当前位置。</span></span></p>
+<pre><code><span><span>myScroll.scrollBy（0，-10）;
+</span></span></code></pre>
+<p><span><span>将滚动10个像素下来。</span><span>如果你是在-100，到头来你会为-110。</span></span></p>
+
+<h3><span><span>scrollToElement（EL，时间，offsetX，offsetY，缓解）</span></span></h3>
+
+<p><span><span>你会喜欢这个。</span><span>稳坐。</span></span></p>
+
+<p><span><span>唯一的强制性参数是</span></span><code><span><span>埃尔</span></span></code><span><span>。</span><span>传递一个元素或者选择和iScroll会试图滚动到顶部/该元素的离开了。</span></span>
+</p>
+
+<p><code><span><span>时间</span></span></code><span><span>是可选的，并设置动画的持续时间。</span></span></p>
+
+<p>
+    <code><span><span>offsetX</span></span></code><span><span>和</span></span><code><span><span>offsetY</span></span></code><span><span>定义像素偏移，这样就可以滚动到该元素加上一个指定的偏移量。</span><span>不仅如此。</span><span>如果你将其设置为</span></span><code><span><span>真</span></span></code><span><span>该元素将集中在屏幕上。</span><span>请参阅</span></span><a
+        href="http://lab.cubiq.org/iscroll5/demos/scroll-to-element/"><span><span>滚动到元素</span></span></a><span><span>的例子。</span></span>
+</p>
+
+<p>
+    <code><span><span>宽松</span></span></code><span><span>的工作方式相同％的</span></span><strong><span><span>scrollTo</span></span></strong><span><span>方法。</span></span>
+</p>
+
+<h2 id="snap"><span><span>快</span></span></h2>
+
+<p><span><span>iScroll可以捕捉到固定的位置和元素。</span></span></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span>扣</span></span></h3>
+<p><span><span>最简单的单元配置情况如下：</span></span></p>
+<pre><code><span><span>VAR myScroll =新IScroll（'＃包装'，{</span></span><span></span><span><span>
+    捕捉：真</span></span><span></span><span><span>
+    }）;</span></span><span></span>
+</code></pre>
+<p><span><span>这将卷轴自动分割成页面的容器的大小。</span></span></p>
+
+<p>
+    <code><span><span>卡</span></span></code><span><span>还需要一个字符串作为值。</span><span>该字符串会选择到滚动条将捕捉到的元素。</span><span>所以以下</span></span>
+</p>
+<pre><code><span><span>VAR myScroll =新IScroll（'＃包装'，{</span></span><span></span><span><span>
+    管理单元：“礼”</span></span><span></span><span><span>
+    }）;</span></span><span></span>
+</code></pre>
+<p><span><span>将捕捉到每一个</span></span><code><span><span>LI</span></span></code><span><span>标签。</span></span></p>
+
+<p><span><span>为了帮助您通过捕捉点iScroll授权访问的一系列有趣的方法导航。</span></span></p>
+
+<h3><span><span>GotoPage记述（X，Y，时间，缓解）</span></span></h3>
+
+<p>
+    <code><span><span>X</span></span></code><span><span>和</span></span><code><span><span>ÿ</span></span></code><span><span>表示要滚动到在水平或垂直轴的页面数量（是的，它是复数</span></span><em><span><span>轴</span></span></em><span><span>，我查）。</span><span>如果在单维滚轮，只是通过</span></span><code><span><span>0</span></span></code><span><span>到轴则不需要。</span></span>
+</p>
+
+<p>
+    <code><span><span>时间</span></span></code><span><span>是动画的持续时间，</span></span><code><span><span>缓解了</span></span></code><span><span>用于滚动到如此地步的缓动函数。</span><span>请参阅</span></span><strong><span><span>option.bounceEasing</span></span></strong><span><span>的</span></span><a
+        href="http://iscrolljs.com/#advanced-features"><span><span>高级功能</span></span></a><span><span>。</span><span>它们都是可选的。</span></span>
+</p>
+<pre><code><span><span>myScroll.goToPage（10，0，1000）;
+</span></span></code></pre>
+<p><span><span>这将滚动到第10页上的水平轴在1秒。</span></span></p>
+
+<h3><span><span>下一个（）</span></span><br><span><span>一个（）</span></span></h3>
+
+<p><span><span>转到基于当前位置的下一个和上一个页面。</span></span></p>
+
+<h2 id="zoom"><span><span>放大</span></span></h2>
+
+<p><span><span>要使用捏/缩放功能，你最好使用</span></span><code><span><span>iscroll-zoom.js</span></span></code><span><span>脚本。</span></span>
+</p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span>放大</span></span></h3>
+<p><span><span>将此属性设置为</span></span><code><span><span>真</span></span></code><span><span>，以激活缩放。</span></span></p>
+
+<p><span><span>默认值：</span></span><code><span><span>假的</span></span></code></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span> zoomMax</span></span></h3>
+<p><span><span>最大变焦等级。</span></span></p>
+
+<p><span><span>默认值：</span></span><code><span><span>4</span></span></code></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span> zoomMin</span></span></h3>
+<p><span><span>最小缩放级别。</span></span></p>
+
+<p><span><span>默认：</span></span><code><span><span>1</span></span></code></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span> zoomStart</span></span></h3>
+<p><span><span>启动缩放级别。</span></span></p>
+
+<p><span><span>默认：</span></span><code><span><span>1</span></span></code></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span> wheelAction</span></span></h3>
+<p>
+    <span><span>轮动作可以被设置为</span></span><code><span><span>'放大'</span></span></code><span><span>有轮调节缩放级别，而不是滚动的位置。</span></span>
+</p>
+
+<p><span><span>默认值：</span></span><code><span><span>未定义</span></span></code><span><span>（即：鼠标滚轮滚动）</span></span></p>
+
+<p><span><span>综上所述，一个漂亮变焦的配置是：</span></span></p>
+<pre><code><span><span>myScroll =新IScroll（'＃包装'，{</span></span><span></span><span><span>
+    变焦：真实，</span></span><span></span><span><span>
+    鼠标滚轮：真实，</span></span><span></span><span><span>
+    wheelAction：'放大'</span></span><span></span><span><span>
+    }）;</span></span><span></span>
+</code></pre>
+<div class="important">
+    <p><span><span>变焦与CSS变换进行。</span><span>iScroll可以放大仅在支持的浏览器。</span></span></p>
+</div>
+
+<div class="tip">
+    <p>
+        <span><span>有些浏览器（特别是基于WebKit的）采取缩放区域的快照，一旦它们被放置在硬件合成层上（比如只要您应用转换到它们）。</span><span>该快照被用作用于变焦区域的纹理，它可以几乎不被更新。</span><span>这意味着，你的纹理将基于要素的</span></span><strong><span><span>比例为1</span></span></strong><span><span>和放大会导致模糊，低清晰度的文本和图像。</span></span>
+    </p>
+
+    <p><span><span>一个简单的解决方案是在双（或三）它的实际分辨率加载内容，并下了内圈刻度</span></span><code><span><span>标尺（0.5）</span></span></code><span><span>股利。</span><span>这应该足以满足你一个更好的结果。</span><span>我希望能够发布更多的演示很快</span></span>
+    </p>
+</div>
+
+<p><span><span>参考</span></span><a
+        href="http://lab.cubiq.org/iscroll5/demos/zoom/"><span><span>放大演示</span></span></a><span><span>。</span></span>
+</p>
+
+<h3><span><span>变焦（规模，的x，y，时间）</span></span></h3>
+
+<p><span><span>多汁的方法，可以让你放大编程。</span></span></p>
+
+<p><code><span><span>规模</span></span></code><span><span>是变焦倍数。</span></span></p>
+
+<p>
+    <code><span><span>X</span></span></code><span><span>和</span></span><code><span><span>ÿ</span></span></code><span><span>聚焦点，也称为变焦的中心。</span><span>如果未指定，在屏幕的中心将被使用。</span></span>
+</p>
+
+<p><code><span><span>时间</span></span></code><span><span>是动画的以毫秒为单位（可选）的持续时间。</span></span></p>
+
+<h2 id="infinite-scrolling"><span><span>无限滚动</span></span></h2>
+
+<p><span><span>iScroll集成了智能缓存系统，使处理数据的使用（和重用）一个几乎无限量的只是一堆元素。</span></span></p>
+
+<p><span><span>无限滚动是在开发的早期阶段，虽然它也可以认为是稳定的，它是不准备好宽消耗。</span></span></p>
+
+<p><span><span>请检查</span></span><a
+        href="http://lab.cubiq.org/iscroll5/demos/infinite/"><span><span>无限演示</span></span></a><span><span>，并发送您的建议和错误报告。</span></span>
+</p>
+
+<p><span><span>我会尽快的功能的发展添加更多的细节。</span></span></p>
+
+<h2 id="advanced-options"><span><span>高级选项</span></span></h2>
+
+<p><span><span>对于骨灰级的开发。</span></span></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span> bindToWrapper</span></span></h3>
+<p><span><span>该</span></span><code><span><span>举动</span></span></code><span><span>事件通常结合到文件，而不是滚动容器。</span><span>当你移动光标/手指从包装的滚动不断持续。</span><span>这通常是你想要的，但你也可以绑定移动事件包装器本身。</span><span>这样做时，只要指针离开容器的滚动停止。</span></span>
+</p>
+
+<p><span><span>默认值：</span></span><code><span><span>假的</span></span></code></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span> bounceEasing</span></span></h3>
+<p>
+    <span><span>宽松的反弹动画过程中执行的功能。</span><span>有效值为：</span></span><code><span><span>'二次'</span></span></code><span><span>，</span></span><code><span><span>'圆'</span></span></code><span><span>，</span></span><code><span><span>'回'</span></span></code><span><span>，</span></span><code><span><span>'反弹'</span></span></code><span><span>，</span></span><code><span><span>'弹性'</span></span></code><span><span>。</span><span>见</span></span><a
+        href="http://lab.cubiq.org/iscroll5/demos/bounce-easing/"><span><span>反弹缓解了演示</span></span></a><span><span>，向下拖动滚动条和释放。</span></span>
+</p>
+
+<p>
+    <code><span><span>bounceEasing</span></span></code><span><span>比一个有点聪明。</span><span>您也可以养活一个自定义缓动函数，如下所示：</span></span>
+</p>
+<pre><code><span><span>bounceEasing：{</span></span><span></span><span><span>
+    风格：“立方贝塞尔（0,0,1,1）'，</span></span><span></span><span><span>
+    FN：函数（K）{返回K表; </span><span>}</span></span><span></span><span><span>
+    }</span></span><span></span>
+</code></pre>
+<p><span><span>上面会执行线性宽松。</span><span>该</span></span><code><span><span>风格的</span></span></code><span><span>选项用于每个动画与CSS过渡执行时间，</span></span><code><span><span>FN</span></span></code><span><span>是使用</span></span><code><span><span>requestAnimationFrame</span></span></code><span><span>。</span><span>如果缓动函数太复杂，不能用一个三次贝塞尔表示只是通过</span></span><code><span><span>'' </span></span></code><span><span>（</span><span>空字符串）的</span></span><code><span><span>风格</span></span></code><span><span>。</span></span>
+</p>
+
+<p>
+    <span><span>需要注意的是</span></span><code><span><span>弹跳</span></span></code><span><span>和</span></span><code><span><span>弹</span></span></code><span><span>无法通过CSS转换来完成。</span></span>
+</p>
+
+<p><span><span>默认：</span></span><code><span><span>'循环'</span></span></code></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span> bounceTime</span></span></h3>
+<p><span><span>在反弹动画毫秒的时间。</span></span></p>
+
+<p><span><span>默认值：</span></span><code><span><span>600</span></span></code></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span>减速</span></span></h3>
+<p>
+    <span><span>这个值可以被改变，以改变它的动量动画的持续时间/速度。</span><span>数字越大使动画更短。</span><span>合理的结果可以经历开始的值</span></span><code><span><span>0.01</span></span></code><span><span>，大于基本上不作任何动量的。</span></span>
+</p>
+
+<p><span><span>默认值：</span></span><code><span><span>0.0006</span></span></code></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span> mouseWheelSpeed</span></span></h3>
+<p><span><span>设置鼠标滚轮的速度。</span></span></p>
+
+<p><span><span>默认值：</span></span><code><span><span>20</span></span></code></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span> preventDefaultException</span></span></h3>
+<p><span><span>这些都是异常时</span></span><code><span><span>的preventDefault（）</span></span></code><span><span>反正会不顾被解雇</span></span><strong><span><span>的preventDefault</span></span></strong><span><span>期权价值。</span></span>
+</p>
+
+<p><span><span>这是一个非常强大的功能，如果你不想要</span></span><code><span><span>的preventDefault（）</span></span></code><span><span>上的所有元素</span></span><em><span><span>formfield</span></span></em><span><span>例如类名，你可以通过以下事项：</span></span>
+</p>
+<pre><code><span><span>preventDefaultException：{类名：/（^ | \ S）formfield（\ s |包括$）/}
+</span></span></code></pre>
+<p><span><span>默认值：</span></span><code><span><span>{标签名：/ ^（INPUT | TEXTAREA |按钮|选择）$
+    /} </span></span></code><span><span>。</span></span></p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span> resizePolling</span></span></h3>
+<p><span><span>当你调整窗口iScroll必须重新计算元素的位置和尺寸。</span><span>这可能是小家伙可怜的一个非常艰巨的任务。</span><span>给它一些休息轮询设置为60毫秒。</span></span>
+</p>
+
+<p><span><span>通过减小这个值，你得到更好的视觉效果，但剧本变成CPU上更具侵略性。</span><span>默认值似乎是一个不错的折衷方案。</span></span></p>
+
+<p><span><span>默认值：</span></span><code><span><span>60</span></span></code></p>
+
+<h2 id="refresh"><span><span>掌握刷新方法</span></span></h2>
+
+<p><span><span>iScroll需要知道两个包装和卷轴的确切尺寸。</span><span>他们计算在启动，但如果你的元素大小发生变化，我们需要告诉iScroll，你是搞乱与DOM。</span></span></p>
+
+<p><span><span>这是通过调用来实现</span></span><code><span><span>的刷新</span></span></code><span><span>方法，在正确的时间。</span><span>请跟我来观察，了解这会节省你的挫折小时。</span></span>
+</p>
+
+<p><span><span>你触摸DOM的浏览器渲染每次重绘页面。</span><span>一旦这个重绘已经发生，我们可以安全地读取新的DOM属性。</span><span>重绘相位不是瞬时的，这仅发生在触发它的范围的端部。</span><span>这就是为什么我们需要刷新iScroll之前给渲染器稍微休息一下。</span></span>
+</p>
+
+<p><span><span>为了确保JavaScript的得到更新的属性，你应该推迟refreh像这样：</span></span></p>
+<pre><code><span><span>AJAX（'page.php'，onCompletion）;</span></span><span></span>
+    <span></span><span><span>
+        功能onCompletion（）{</span></span><span></span><span><span>
+        //在此处更新您的DOM</span></span><span></span>
+    <span></span><span><span>
+        的setTimeout（函数（）{</span></span><span></span><span><span>
+        myScroll.refresh（）;</span></span><span></span><span><span>
+        }，0）;</span></span><span></span><span><span>
+        };</span></span><span></span>
+</code></pre>
+<p><span><span>我们已经放在</span></span><code><span><span>刷新（）</span></span></code><span><span>调用到零超时。</span><span>很可能你需要正确地刷新iScroll边界。</span><span>还有其他的方法来等待重新绘制，但零超时已被证明非常稳固。</span></span>
+</p>
+
+<div class="tip">
+    <p><span><span>想想看，如果你有一个非常复杂的HTML结构，你可以给浏览器多一些休息和提高超时为100或200毫秒。</span></span></p>
+
+    <p><span><span>这是所有有需要的DOM完成的任务大致如此。</span><span>总是给渲染一些休息。</span></span></p>
+</div>
+
+<h2 id="custom-events"><span><span>自定义事件</span></span></h2>
+
+<p><span><span>iScroll还发出了一些有用的自定义事件，你可以钩来。</span></span></p>
+
+<p><span><span>登录时使用</span></span><code><span><span>的（类型，FN）</span></span></code><span><span>的方法。</span></span></p>
+<pre><code><span><span>myScroll =新IScroll（'＃包装'）;</span></span><span></span><span><span>
+    myScroll.on（'scrollEnd'，doSomething的）;</span></span><span></span>
+</code></pre>
+<p><span><span>上面的代码执行</span></span><code><span><span>DoSomething的</span></span></code><span><span>每一个内容停止滚动时功能。</span></span>
+</p>
+
+<p><span><span>可用的类型有：</span></span></p>
+<ul>
+    <li><strong><span><span>beforeScrollStart</span></span></strong><span><span>，因为用户触摸屏幕，但滚动发起之前，尽快执行。</span></span>
+    </li>
+    <li><strong><span><span>scrollCancel</span></span></strong><span><span>，滚动启动，但并没有发生。</span></span></li>
+    <li><strong><span><span>scrollstart指示</span></span></strong><span><span>，滚动开始。</span></span></li>
+    <li><strong><span><span>滚动</span></span></strong><span><span>，内容被滚动。</span><span>仅在</span></span><code><span><span>滚动probe.js</span></span></code><span><span>版。</span><span>见</span></span><a
+            href="http://iscrolljs.com/#onscroll"><span><span>onScroll事件</span></span></a><span><span>。</span></span>
+    </li>
+    <li><strong><span><span>scrollEnd</span></span></strong><span><span>，内容停止滚动。</span></span></li>
+    <li><strong><span><span>一抖</span></span></strong><span><span>，用户轻轻向左/向右。</span></span></li>
+    <li><strong><span><span>zoomStart</span></span></strong><span><span>，用户开始放大。</span></span></li>
+    <li><strong><span><span>zoomEnd</span></span></strong><span><span>，变焦结束。</span></span></li>
+</ul>
+<h2 id="onscroll"><span><span>onScroll事件</span></span></h2>
+
+<p>
+    <span><span>在</span></span><code><span><span>滚动</span></span></code><span><span>的事件可以用</span></span><strong><span><span>iScroll探头版</span></span></strong><span><span>只（</span></span><code><span><span>iscroll-probe.js</span></span></code><span><span>）。</span><span>探针的行为可以通过改变</span></span><code><span><span>probeType</span></span></code><span><span>选项。</span></span>
+</p>
+
+<h3>
+    <small><span><span>选项。</span></span></small>
+    <span><span> probeType</span></span></h3>
+<p>
+    <span><span>这种调节探头侵略性或该频率</span></span><code><span><span>滚动</span></span></code><span><span>事件。</span><span>有效值为：</span></span><code><span><span>1</span></span></code><span><span>，</span></span><code><span><span>2</span></span></code><span><span>，</span></span><code><span><span>3</span></span></code><span><span>。</span><span>该数字更积极的探头高。</span><span>更积极的探针上的更高的CPU上的冲击。</span></span>
+</p>
+
+<p><code><span><span>probeType：1</span></span></code><span><span>，对性能没有影响。</span><span>在</span></span><code><span><span>滚动</span></span></code><span><span>事件被触发，只有当滚动条是不是忙着做它的东西。</span></span>
+</p>
+
+<p>
+    <code><span><span>probeType：2</span></span></code><span><span>总执行</span></span><code><span><span>滚动</span></span></code><span><span>，除了势头，反弹过程中的事件。</span><span>这类似于原生</span></span><code><span><span>onScroll</span></span></code><span><span>事件。</span></span>
+</p>
+
+<p>
+    <code><span><span>probeType：3</span></span></code><span><span>发射的</span></span><code><span><span>滚动</span></span></code><span><span>事件与对所述像素精度。</span><span>注意，滚动被强制</span></span><code><span><span>requestAnimationFrame</span></span></code><span><span>（即：</span></span><code><span><span>useTransition：假</span></span></code><span><span>）。</span></span>
+</p>
+
+<p><span><span>请参阅</span></span><a
+        href="http://lab.cubiq.org/iscroll5/demos/probe/"><span><span>探头演示</span></span></a><span><span>。</span></span>
+</p>
+
+<h2 id="key-bindings"><span><span>键绑定</span></span></h2>
+
+<p><span><span>您可以激活键盘和遥控器的支持</span></span><code><span><span>键绑定</span></span></code><span><span>选项。</span><span>默认情况下iScroll听箭头键，向上/向下翻页，Home
+    / End键，但他们（等待它），完全可定制的。</span></span></p>
+
+<p><span><span>你可以传递一个对象，你想iScroll作出反应的关键代码列表。</span></span></p>
+
+<p><span><span>默认值如下：</span></span></p>
+<pre><code><span><span>键绑定：{</span></span><span></span><span><span>
+    上一页：33，</span></span><span></span><span><span>
+    下一页：34，</span></span><span></span><span><span>
+    结束：35，</span></span><span></span><span><span>
+    家庭：36，</span></span><span></span><span><span>
+    左：37，</span></span><span></span><span><span>
+    最多：38，</span></span><span></span><span><span>
+    右：39，</span></span><span></span><span><span>
+    下跌：40</span></span><span></span><span><span>
+    }</span></span><span></span>
+</code></pre>
+<p><span><span>你也可以传递一个字符串（例如：</span></span><code><span><span>上一页：'一'</span></span></code><span><span>），并iScroll将其转换为您服务。</span><span>你可以想想的关键代码和iScroll会读出你的心灵。</span></span>
+</p>
+
+<h2 id="scroller-info"><span><span>有用的滚动信息</span></span></h2>
+
+<p><span><span>iScroll商店，你可以用它来增强您的应用程序很多有用的信息。</span></span></p>
+
+<p><span><span>你可能会找到有用的：</span></span></p>
+<ul>
+    <li><strong><span><span>myScroll.x /年</span></span></strong><span><span>，当前位置</span></span></li>
+    <li><strong><span><span>myScroll.directionX /
+        Y</span></span></strong><span><span>，最后的方向（-1下/右，还是0，1升/左）</span></span></li>
+    <li><strong><span><span>myScroll.currentPage</span></span></strong><span><span>，当前捕捉点信息</span></span></li>
+</ul>
+<p><span><span>当使用自定义的事件处理这些信息可能是有用的。</span><span>例如：</span></span></p>
+<pre><code><span><span>myScroll =新IScroll（'＃包装'）;</span></span><span></span><span><span>
+    myScroll.on（'scrollEnd'，函数（）{</span></span><span></span><span><span>
+    如果（this.x &lt;1000）{</span></span><span></span><span><span>
+    //做一些事情</span></span><span></span><span><span>
+    }</span></span><span></span><span><span>
+    }）;</span></span><span></span>
+</code></pre>
+<p>
+    <span><span>上述执行一些代码，如果</span></span><code><span><span>X</span></span></code><span><span>位置比-1000px低时滚动停止。</span><span>请注意，我用</span></span><code><span><span>这个</span></span></code><span><span>来代替</span></span><code><span><span>myScroll</span></span></code><span><span>，您可以使用，当然这两种，但iScroll通过自己作为</span></span><code><span><span>这个</span></span></code><span><span>射击的自定义事件的功能，当环境。</span></span>
+</p>
+
+<h2 id="destroy"><span><span>破坏</span></span></h2>
+
+<p>
+    <span><span>公众</span></span><code><span><span>的destroy（）</span></span></code><span><span>方法可以用来释放一些内存时iScroll不再需要。</span></span>
+</p>
+<pre><code><span><span>myScroll.destroy（）;</span></span><span></span><span><span>
+    myScroll = NULL;</span></span><span></span>
+</code></pre>
+<h2 id="contributing"><span><span>贡献和CLA</span></span></h2>
+
+<p><span><span>如果你想做出贡献iScroll的发展，在我可以接受你的提交我要请你签的</span></span><a href="http://cubiq.org/iscroll/cla/"><span><span>贡献者许可协议</span></span></a><span><span>。</span><span>不幸的是执行脚本的开放性的唯一途径。</span></span>
+</p>
+
+<p><span><span>作为最终用户，您需要做的任何事情。</span><span>其实，CLA确保没有人会来，即使你要求你的第一个出生的使用iScroll后。</span></span></p>
+
+<p>
+    <span><span>请注意，拉请求可能需要一些时间来接受。</span><span>测试iScroll是该项目中最耗时的任务之一。</span><span>iScroll从桌面工程智能手机，平板电脑到智能电视。</span><span>我没有给所有的测试设备的物理访问，所以我才可以推动改变我必须确保新的代码工作无处不在。</span></span>
+</p>
+
+<p><span><span>严重的安全漏洞通常是用得非常快，但增强和编码风格的改变必须通过较长的审查阶段。</span></span><em><span><span>记住，这仍然是一个侧面的项目给我。</span></span></em>
+</p>
+
+<h2 id="whos"><span><span>使用iScroll谁</span></span></h2>
+
+<p><span><span>这是不可能跟踪所有使用iScroll的网站和应用程序。</span><span>它已被发现的：苹果，微软，人，LinkedIn，宜家，耐克，花花公子，百色，以及无数其他。</span></span></p>
+
+<h2 id="license"><span><span>许可证（MIT）</span></span></h2>
+
+<p><span><span>版权所有（c）2014利玛窦斯皮内利，</span></span><a href="http://cubiq.org/"><span><span>cubiq.org</span></span></a></p>
+
+<p><span><span>特此授权，免费的，任何人获得该软件的副本及相关文档文件（“软件”），处理的软件没有任何限制，包括但不限于使用，复制，修改，合并，发布，分发，再许可和/或销售软件副本，并允许个人向谁软件附有这样做的，须符合下列条件：</span></span>
+</p>
+
+<p><span><span>上述版权声明和本许可声明应包括在所有的副本或实质性部分的软件。</span></span></p>
+
+<p><span><span>本软件按“原样”，不做任何形式的明示或默示的担保，包括但不限于适销性，针对特定目的的适用性和不侵权的声明。</span><span>在任何情况下，作者或版权所有者都不对任何索赔，损害或其他责任，无论是合同行为，侵权行为还是其他原因，FROM，淘汰或与本软件或使用或其他交易的软件。</span></span>
+</p>
+</div>
+
+<div class="sidebar" id="sidebar">
+    <ul class="nav">
+        <li class="active"><a href="./iScroll 5_files/iScroll 5.htm"><span><span>介绍</span></span></a></li>
+        <li><a href="#iscroll-versions"><span><span>iScroll版本</span></span></a></li>
+        <li><a href="#getting-started"><span><span>入门</span></span></a></li>
+        <li><a href="#initialization"><span><span>初始化</span></span></a></li>
+        <li><a href="#http://iscrolljs.com#configuring"><span><span>配置</span></span></a></li>
+        <li><a href="#the-core"><span><span>核心</span></span></a></li>
+        <li><a href="#basic-features"><span><span>基本特征</span></span></a></li>
+        <li><a href="#scrollbars"><span><span>滚动条</span></span></a></li>
+        <li><a href="#indicators"><span><span>指标</span></span></a></li>
+        <li><a href="#snap"><span><span>快</span></span></a></li>
+        <li><a href="#zoom"><span><span>放大</span></span></a></li>
+        <li><a href="#infinite-scrolling"><span><span>无限滚动</span></span></a></li>
+        <li><a href="#advanced-options"><span><span>高级选项</span></span></a></li>
+        <li><a href="#refresh"><span><span>刷新</span></span></a></li>
+        <li><a href="#custom-events"><span><span>自定义事件</span></span></a></li>
+        <li><a href="#key-bindings"><span><span>键绑定</span></span></a></li>
+        <li><a href="#scroller-info"><span><span>滚动信息</span></span></a></li>
+        <li><a href="#destroy"><span><span>破坏</span></span></a></li>
+        <li><a href="#contributing"><span><span>特约</span></span></a></li>
+        <li><a href="#whos"><span><span>使用iScroll谁</span></span></a></li>
+        <li><a href="#license"><span><span>许可</span></span></a></li>
+    </ul>
+</div>
+
+<div style="clear:both"></div>
+</div>
+
+<script type="text/javascript">
+    $('body').scrollspy({ target: '#sidebar', offset: 10 });
+
+    !function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }
+    }(document, "script", "twitter-wjs");
+</script>
+
+<script type="text/javascript">
+    (function () {
+        var po = document.createElement('script');
+        po.type = 'text/javascript';
+        po.async = true;
+        po.src = 'https://apis.google.com/js/platform.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(po, s);
+    })();
+</script>
+
+
+<div id="goog-gt-tt" class="skiptranslate" dir="ltr">
+    <div style="padding: 8px;">
+        <div>
+            <div class="logo"><img src="./iScroll 5_files/translate-32.png" width="20" height="20"></div>
+        </div>
+    </div>
+    <div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">原文</h1></div>
+    <div class="middle" style="padding: 8px;">
+        <div class="original-text"></div>
+    </div>
+    <div class="bottom" style="padding: 8px;">
+        <div class="activity-links"><span class="activity-link">提供更好的翻译建议</span><span class="activity-link"></span>
+        </div>
+        <div class="started-activity-container">
+            <hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;">
+            <div class="activity-root"></div>
+        </div>
+    </div>
+    <div class="status-message" style="display: none;"></div>
+</div>
+<iframe name="oauth2relay355487626" id="oauth2relay355487626" src="./iScroll 5_files/postmessageRelay.htm" tabindex="-1"
+        style="width: 1px; height: 1px; position: absolute; top: -100px;"></iframe>
+</body>
+</html>

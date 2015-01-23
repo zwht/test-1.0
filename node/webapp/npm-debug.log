@@ -1,0 +1,112 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'D:\\Program Files\\nodejs\\\\node.exe',
+1 verbose cli   'D:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   '--save-dev' ]
+2 info using npm@1.4.14
+3 info using node@v0.10.29
+4 verbose node symlink D:\Program Files\nodejs\\node.exe
+5 warn package.json webapp@0.1.0 No description
+6 warn package.json webapp@0.1.0 No repository field.
+7 warn package.json webapp@0.1.0 No README data
+8 verbose readDependencies using package.json deps
+9 verbose install where, deps [ 'D:\\wamp\\www\\Git\\test-1.0\\webapp',
+9 verbose install   [ 'grunt',
+9 verbose install     'grunt-contrib-concat',
+9 verbose install     'grunt-contrib-jshint',
+9 verbose install     'grunt-contrib-nodeunit',
+9 verbose install     'grunt-contrib-uglify' ] ]
+10 info preinstall webapp@0.1.0
+11 verbose readDependencies using package.json deps
+12 verbose already installed skipping grunt@^0.4.5 D:\wamp\www\Git\test-1.0\webapp
+13 verbose cache add [ 'grunt-contrib-concat@~0.2.2', null ]
+14 verbose cache add name=undefined spec="grunt-contrib-concat@~0.2.2" args=["grunt-contrib-concat@~0.2.2",null]
+15 verbose parsed url { protocol: null,
+15 verbose parsed url   slashes: null,
+15 verbose parsed url   auth: null,
+15 verbose parsed url   host: null,
+15 verbose parsed url   port: null,
+15 verbose parsed url   hostname: null,
+15 verbose parsed url   hash: null,
+15 verbose parsed url   search: null,
+15 verbose parsed url   query: null,
+15 verbose parsed url   pathname: 'grunt-contrib-concat@~0.2.2',
+15 verbose parsed url   path: 'grunt-contrib-concat@~0.2.2',
+15 verbose parsed url   href: 'grunt-contrib-concat@~0.2.2' }
+16 verbose already installed skipping grunt-contrib-jshint@~0.6.0 D:\wamp\www\Git\test-1.0\webapp
+17 verbose cache add name="grunt-contrib-concat" spec="~0.2.2" args=["grunt-contrib-concat","~0.2.2"]
+18 verbose parsed url { protocol: null,
+18 verbose parsed url   slashes: null,
+18 verbose parsed url   auth: null,
+18 verbose parsed url   host: null,
+18 verbose parsed url   port: null,
+18 verbose parsed url   hostname: null,
+18 verbose parsed url   hash: null,
+18 verbose parsed url   search: null,
+18 verbose parsed url   query: null,
+18 verbose parsed url   pathname: '~0.2.2',
+18 verbose parsed url   path: '~0.2.2',
+18 verbose parsed url   href: '~0.2.2' }
+19 verbose addNamed [ 'grunt-contrib-concat', '~0.2.2' ]
+20 verbose addNamed [ null, '>=0.2.2-0 <0.3.0-0' ]
+21 silly lockFile 32ae2e3a-grunt-contrib-concat-0-2-2 grunt-contrib-concat@~0.2.2
+22 verbose lock grunt-contrib-concat@~0.2.2 C:\Users\HP\AppData\Roaming\npm-cache\32ae2e3a-grunt-contrib-concat-0-2-2.lock
+23 silly addNameRange { name: 'grunt-contrib-concat',
+23 silly addNameRange   range: '>=0.2.2-0 <0.3.0-0',
+23 silly addNameRange   hasData: false }
+24 verbose already installed skipping grunt-contrib-nodeunit@~0.2.0 D:\wamp\www\Git\test-1.0\webapp
+25 verbose already installed skipping grunt-contrib-uglify@~0.2.2 D:\wamp\www\Git\test-1.0\webapp
+26 verbose url raw grunt-contrib-concat
+27 verbose url resolving [ 'https://registry.npmjs.org/', './grunt-contrib-concat' ]
+28 verbose url resolved https://registry.npmjs.org/grunt-contrib-concat
+29 info trying registry request attempt 1 at 13:59:03
+30 verbose etag "CBS5VY6P5VCMD7GHLMSX08NCE"
+31 http GET https://registry.npmjs.org/grunt-contrib-concat
+32 http 200 https://registry.npmjs.org/grunt-contrib-concat
+33 silly registry.get cb [ 200,
+33 silly registry.get   { date: 'Fri, 21 Nov 2014 05:59:09 GMT',
+33 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+33 silly registry.get     etag: '"CTAFCVJJFRM66076G9UL8E2W4"',
+33 silly registry.get     'content-type': 'application/json',
+33 silly registry.get     'cache-control': 'max-age=60',
+33 silly registry.get     'content-length': '27903',
+33 silly registry.get     'accept-ranges': 'bytes',
+33 silly registry.get     via: '1.1 varnish',
+33 silly registry.get     age: '0',
+33 silly registry.get     'x-served-by': 'cache-ty66-TYO',
+33 silly registry.get     'x-cache': 'HIT',
+33 silly registry.get     'x-cache-hits': '1',
+33 silly registry.get     'x-timer': 'S1416549549.494768,VS0,VE190',
+33 silly registry.get     vary: 'Accept',
+33 silly registry.get     'keep-alive': 'timeout=10, max=50',
+33 silly registry.get     connection: 'Keep-Alive' } ]
+34 silly addNameRange number 2 { name: 'grunt-contrib-concat',
+34 silly addNameRange   range: '>=0.2.2-0 <0.3.0-0',
+34 silly addNameRange   hasData: true }
+35 silly addNameRange versions [ 'grunt-contrib-concat',
+35 silly addNameRange   [ '0.1.0',
+35 silly addNameRange     '0.1.1',
+35 silly addNameRange     '0.1.2',
+35 silly addNameRange     '0.1.3',
+35 silly addNameRange     '0.2.0',
+35 silly addNameRange     '0.3.0',
+35 silly addNameRange     '0.4.0',
+35 silly addNameRange     '0.5.0',
+35 silly addNameRange     '0.1.2-rc5',
+35 silly addNameRange     '0.1.2-rc6' ] ]
+36 silly lockFile 32ae2e3a-grunt-contrib-concat-0-2-2 grunt-contrib-concat@~0.2.2
+37 silly lockFile 32ae2e3a-grunt-contrib-concat-0-2-2 grunt-contrib-concat@~0.2.2
+38 error notarget No compatible version found: grunt-contrib-concat@'>=0.2.2-0 <0.3.0-0'
+38 error notarget Valid install targets:
+38 error notarget ["0.1.0","0.1.1","0.1.2","0.1.3","0.2.0","0.3.0","0.4.0","0.5.0","0.1.2-rc5","0.1.2-rc6"]
+38 error notarget
+38 error notarget This is most likely not a problem with npm itself.
+38 error notarget In most cases you or one of your dependencies are requesting
+38 error notarget a package version that doesn't exist.
+39 error System Windows_NT 6.1.7601
+40 error command "D:\\Program Files\\nodejs\\\\node.exe" "D:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "--save-dev"
+41 error cwd D:\wamp\www\Git\test-1.0\webapp
+42 error node -v v0.10.29
+43 error npm -v 1.4.14
+44 error code ETARGET
+45 verbose exit [ 1, true ]

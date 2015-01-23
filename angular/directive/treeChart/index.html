@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app="ngZw">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../../../common/js/jquery/jquery-1.10.2.js"></script>
+    <script src="../../../common/js/raphael/raphael.min-2.1.2.js"></script>
+    <script src="../../../common/js/angular/angular.min.js"></script>
+    <script src="index.js"></script>
+    <style>
+        body{}
+        #tree-chart {
+            position: relative;
+            width: 1200px;
+            height: 450px;
+            border: 1px solid #099;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body ng-controller="treeChartCtrl">
+
+<div data-zw-tree-chart="data" id="tree-chart"></div>
+
+</body>
+</html>

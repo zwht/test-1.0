@@ -1,0 +1,324 @@
+<!Doctype Html>
+<html>
+<head>
+    <title>Line Chart Demo</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <style>
+        body { background-color: #bfd0c4; margin: 15px; padding: 0 }
+
+        #canvasBox { background-color: #37474f; border-radius: 6px; }
+
+        canvas { }
+    </style>
+</head>
+<body>
+<div id="canvasBox">
+    <canvas width="690" height="350" id="canvas"></canvas>
+</div>
+
+<script>
+
+window.onload = function () {
+    var canvasBox = document.getElementById("canvasBox");
+    var canvas = document.getElementById("canvas");
+    var multiData = {
+        values: [
+            { value0: [
+                {x: "20140910", y: 0},
+                {x: "20140915", y: 90},
+                {x: "20141011", y: 40},
+                {x: "20141029", y: 110},
+                {x: "20141111", y: 120},
+                {x: "20140910", y: 56},
+                {x: "20140915", y: 80},
+                {x: "20141011", y: 40},
+                {x: "20141111", y: 120},
+                {x: "20140910", y: 56},
+                {x: "20140915", y: 80},
+                {x: "20141029", y: 50},
+                {x: "20141111", y: 10}
+            ]},
+            { value1: [
+                {x: "20140910", y: 50},
+                {x: "20140915", y: 40},
+                {x: "20141011", y: 60},
+                {x: "20141029", y: 10},
+                {x: "20141111", y: 20},
+            ]}
+        ]
+    };
+
+    zwOn();
+    window.onresize = function () {
+        zwOn();
+    };
+
+    function zwOn() {
+        var canvasBoxWidth = canvasBox.offsetWidth,
+                height = 350,
+                width = 690,
+                padding = 40,
+                colors1 = ["#c00", "#099"],
+                colors2 = ["#c00", "#099"];
+        scale = (height / width).toFixed(3);
+        //canvas.width = canvasBoxWidth;
+        //canvas.height = canvasBoxWidth * scale;
+        //必须按照这个格式定义数据，关键字values value0 value1 ......
+        /*
+         *@param0: canvas 的id
+         *@param1: 宽高变量
+         *@param2: json 数据
+         *@param3: 坐标距离画布的间隙padding 相对宽高
+         *@param4: 如果只有一条数据时数据的颜色，多条数据颜色随机
+         *@param5: 点的颜色
+         *@param6: 是否绘制背景线
+         *@param7: 是否是多条数据
+         */
+        //先定义数据线的名字，再绘制数据
+        LineChart.setKey(["数学", "英语"]);
+        LineChart.setData("canvas", width, height, multiData, padding, colors1, colors2, true, false);
+    }
+
+
+};
+
+var LineChart = {
+    keynames: [],//数据信息数组
+    can: undefined,
+    ctx: undefined,
+    width: undefined,
+    lineColor: undefined,
+    dotColor: undefined,
+    isBg: false,
+    isMultiData: false,
+    setData: function (canId, width, height, data, padding, lineColor, dotColor, isBg, isMultiData) {
+
+
+        this.can = document.getElementById(canId);
+        this.canvasBox = this.can.parentNode;
+
+        this.can.width = this.canvasBox.offsetWidth;//设置宽
+        this.scale = (this.can.width / width).toFixed(2)>1?1:(this.can.width / width).toFixed(2);
+        this.can.height=height * this.scale;//设置高
+        this.lineColor = lineColor;
+
+        this.dotColor = dotColor;
+        this.ctx = this.can.getContext("2d");
+        this.isBg = isBg;
+        this.isMultiData = isMultiData;
+
+        var dataLength = parseInt(this.scale / 0.1)<5?5:parseInt(this.scale / 0.1);
+
+        var newData = new Object();
+        newData.values=data.values;
+
+
+        newData.values[0].value0 = newData.values[0].value0.slice(0, dataLength);
+
+        //console.log(data.values[0].value0.length);
+        this.drawXY(newData, 0, (padding * this.scale), this.can);
+
+    },
+    isMultiData: function (data) {
+        if (data.values.length > 1) {
+            this.isMultiData = true;
+        }
+    },//是否是多条数据线
+
+    drawXY: function (data, key, padding, can) {
+        this.ctx.font = parseInt(16 * this.scale) + 'px 微软雅黑 sans-serif';
+        //this.ctx.font = '12px 微软雅黑 sans-serif';
+
+        var perwidth = this.getPixel(data, key, can.width, padding);//x 轴每一个数据占据的宽度
+
+        var maxY = this.getMax(data, 0, this.isMultiData);//获得Y轴上的最大值
+        var yPixel = this.getYPixel(maxY, can.height, padding).pixel;
+        var ycount = this.getYPixel(maxY, can.height, padding).ycount;
+
+        this.ctx.textAlign = "right";//y轴文字靠右写
+        this.ctx.textBaseline = "middle";//文字的中心线的调整
+        this.ctx.fillStyle = "#FFF";
+
+        //画y轴坐标点文字
+        for (var i = 0; i < ycount / 20; i++) {
+            this.ctx.fillText(i * 20, padding - (8 * this.scale), (ycount / 20 - i) * 20 * yPixel, perwidth);
+        }
+
+        //画x轴坐标点文字
+        this.ctx.textAlign = "center";
+        for (var i = 0, ptindex; i < data.values[key]["value" + key].length; i++) {
+            ptindex = i + 1;
+            var x_x = this.getCoordX(padding, perwidth, ptindex);
+            var x_y = can.height - padding + 20 * this.scale;
+            this.ctx.fillText(data.values[key]["value" + key][i].x, x_x, x_y, perwidth);
+        }
+
+        //选择绘制背景线
+        this.ctx.strokeStyle = "#313f46";
+        if (this.isBg) {
+            var x = padding;
+            this.ctx.lineWidth = "2";
+
+            for (var i = 0; i < ycount / 20; i++) {
+
+                var y = (ycount / 20 - i) * 20 * yPixel;
+                if (i === 3) {
+                    this.ctx.strokeStyle = "#9e4243";
+                } else {
+                    this.ctx.strokeStyle = "#313f46";
+                }
+                this.ctx.beginPath();
+                this.ctx.moveTo(x, y);
+                this.ctx.lineTo(can.width, y);
+                this.ctx.stroke();
+            }
+
+        }
+
+        //绘制坐标轴
+        this.ctx.beginPath();
+        this.ctx.strokeStyle = "#5f6b72";
+        this.ctx.moveTo(padding, 0);
+        this.ctx.lineTo(padding, can.height - padding);
+        this.ctx.lineTo(can.width, can.height - padding);
+        this.ctx.stroke();
+
+        //绘制图表---
+        this.drawData(data, 0, padding, perwidth, yPixel, this.isMultiData);
+
+
+    },//绘制XY坐标 线 以及点
+
+    drawData: function (data, key, padding, perwidth, yPixel, isMultiData, lineColor) {
+        if (!isMultiData) {
+            var keystr = "value" + key;
+            this.ctx.beginPath();
+            this.ctx.lineWidth = parseInt(4 * this.scale);
+            //console.log(this.ctx.lineWidth);
+            if (arguments[6]) {
+                this.ctx.strokeStyle = lineColor;
+            } else {
+                this.ctx.strokeStyle = this.lineColor;
+            }
+
+            var startX = this.getCoordX(padding, perwidth, 0);
+            var startY = this.getCoordY(padding, yPixel, data.values[key][keystr][0].y);
+
+            //创建渐变填充
+            var linear = this.ctx.createLinearGradient(0, (this.can.height / 2), 0, this.can.height);
+            linear.addColorStop(0, '#7cb342');
+            linear.addColorStop(0.1, '#d24846');
+            linear.addColorStop(1, '#d24846');
+            this.ctx.strokeStyle = linear;
+            //绘制数据线
+            this.ctx.beginPath();
+            for (var i = 0; i < data.values[key][keystr].length; i++) {
+                var x = this.getCoordX(padding, perwidth, i + 1);
+                var y = this.getCoordY(padding, yPixel, data.values[key][keystr][i].y);
+                this.ctx.lineTo(x, y);
+            }
+            this.ctx.stroke();
+            /*下面绘制数据线上的点*/
+            this.ctx.beginPath();
+            this.ctx.fillStyle = this.dotColor[1];
+            for (var i = 0; i < data.values[key][keystr].length; i++) {
+                var x = this.getCoordX(padding, perwidth, i + 1);
+                var y = this.getCoordY(padding, yPixel, data.values[key][keystr][i].y);
+                if (data.values[key][keystr][i].y < 60) {
+                    this.ctx.fillStyle = "#9e4243";
+                } else {
+                    this.ctx.fillStyle = this.dotColor[1];
+                }
+                this.ctx.beginPath();
+                this.ctx.moveTo(x, y);
+                this.ctx.arc(x, y, parseInt(6 * this.scale), 0, Math.PI * 2, true);//绘制数据线上的点
+                this.ctx.fill();
+            }
+            /*下面绘制数据值*/
+            this.ctx.beginPath();
+            this.ctx.fillStyle = "#FFF";
+            for (var i = 0; i < data.values[key][keystr].length; i++) {
+                var x = this.getCoordX(padding, perwidth, i + 1);
+                var y = this.getCoordY(padding, yPixel, data.values[key][keystr][i].y) + parseInt(15 * this.scale);
+                if (data.values[key][keystr][i].y < 60) {
+                    this.ctx.fillStyle = "#9e4243";
+                    y = y - parseInt(30 * this.scale);
+                } else {
+                    this.ctx.fillStyle = "#FFF";
+                }
+                this.ctx.fillText(data.values[key][keystr][i].y, x, y, perwidth);
+
+            }
+        } else {//如果是多条数据线
+            for (var i = 0; i < data.values.length; i++) {
+                var color = this.lineColor[i];
+                console.log(this.lineColor[i]);
+                LineChart.drawData(data, i, padding, perwidth, yPixel, false, color);
+                LineChart.drawKey(color, this.keynames[i], padding, i);
+            }
+        }
+    },//绘制数据线和数据点
+    getPixel: function (data, key, width, padding) {
+        var count = data.values[key]["value" + key].length;
+
+        return (width - padding) / (count + (count - 1) * 1.5);
+    },//宽度
+    getCoordX: function (padding, perwidth, ptindex) {//下标从1开始 不是从0开始
+        return 2.5 * perwidth * ptindex + padding + 0 - 2 * perwidth;
+    },//横坐标X 随ptindex 获得
+    getCoordY: function (padding, yPixel, value) {
+        var y = yPixel * value;
+        return this.can.height - padding - y;
+    },//纵坐标X 随ptindex 获得(注意 纵坐标的算法是倒着的因为原点在最上面)
+    getYPixel: function (maxY, height, padding) {
+        var ycount = (parseInt(maxY / 10) + 1) * 10;//y轴最大值
+        return {pixel: (height - padding) / ycount, ycount: ycount};
+    },//y轴的单位长度
+
+    getMax: function (data, key, isMultiData) {
+        if (!isMultiData) {
+            var maxY = data.values[key]["value" + key][0].y;
+            var length = data.values[key]["value" + key].length;
+            var keystr = "value" + key;
+            for (var i = 1; i < length; i++) {
+                if (maxY < data.values[key][keystr][i].y) maxY = data.values[key][keystr][i].y;
+            }
+            return maxY;//返回最大值 如果不是多数据
+        } else {
+            var maxarr = [];
+            var count = data.values.length;//多条数据的数据长度
+            for (var i = 0; i < count; i++) {
+                maxarr.push(LineChart.getMax(data, i, false));
+            }
+            var maxvalue = maxarr[0];
+            for (var i = 1; i < maxarr.length; i++) {
+                maxvalue = (maxvalue < maxarr[i]) ? maxarr[i] : maxvalue;
+            }
+            return maxvalue;
+        }//如果是多数据
+    },
+
+    setKey: function (keynames) {//keynames 是数组
+        for (var i = 0; i < keynames.length; i++) {
+            this.keynames.push(keynames[i]);//存入数组中
+        }
+    },
+
+    drawKey: function (color, keyname, padding, lineindex) {
+        var x = padding + 10;
+        var y = parseInt(20 * (lineindex + 1) * this.scale);
+        this.ctx.beginPath();
+        this.ctx.strokeStyle = color;
+        this.ctx.fillStyle = color;
+        this.ctx.font = "10px";
+        this.ctx.moveTo(x, y);
+        this.ctx.lineTo(parseInt((x + 50) * this.scale), y);
+        this.ctx.fillText(":" + keyname, parseInt((x + 80) * this.scale), y);
+        this.ctx.stroke();
+        this.ctx.closePath();
+    }
+}
+
+</script>
+</body>
+</html>

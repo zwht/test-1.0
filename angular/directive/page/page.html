@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html ng-app="myModule">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body ng-controller="paperCtr">
+<pagination total-items="bigTotalItems" ng-model="bigCurrentPage"
+            max-size="maxSize" class="pagination-sm" boundary-links="true"></pagination>
+
+{{maxSize}}
+<!--<pagination total-items="bigTotalItems" ng-model="bigCurrentPage"
+            max-size="maxSize" class="pagination-sm" boundary-links="true"
+            rotate="false" num-pages="numPages"></pagination>-->
+
+<script src="../../../common/js/jquery/jquery-1.10.2.js"></script>
+<script src="../../../common/js/angular/angular.min.js"></script>
+<script src="page.js"></script>
+<script src="ui-bootstrap-0.11.2.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app="ngZw">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../../../common/js/jquery/jquery-1.10.2.js"></script>
+    <script src="../../../common/js/angular/angular.min.js"></script>
+    <script src="index.js"></script>
+    <style>
+        body{}
+        .zw-check-box{ list-style-type: none; margin: 0; padding: 0}
+        .zw-check-box:after{ content: ''; clear: both; display: block}
+        .zw-check-box li{ float: left; margin: 10px; cursor: pointer}
+        .zw-check-box li:after{ content: ''; clear: both; display: block}
+        .zw-check-box .disabled{ cursor:auto; color: #cccccc }
+        .zw-check-box li .check-icon{ float: left; height: 16px; width: 16px; margin: 4px; background: url("../../../common/images/icon-checkbox.jpg") 0 -30px }
+        .zw-check-box li .check-text{ float: left; height: 24px; line-height: 24px}
+        .zw-check-box .active{ color: #98b57a}
+        .zw-check-box .active .check-icon{ background-position: 0 -45px}
+    </style>
+</head>
+<body ng-controller="controller">
+
+<ul data-check-box="" data-check-data="data" data-call-back="callBack"></ul>
+</body>
+</html>

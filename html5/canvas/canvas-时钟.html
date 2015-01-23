@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body{ background: #000; margin: 0}
+        #c{background: #fff}
+    </style>
+</head>
+<body>
+<canvas id="c" width="1000" height="1000"></canvas>
+<script>
+
+    window.onload=function(){
+        getTime();
+        setInterval(function(){
+            getTime();
+        },1000);
+
+    };
+    var c=document.getElementById('c');
+    var p= c.getContext('2d');
+    var x=500;
+    var y=410;
+    var r=300;
+
+
+    function getTime(){
+        p.clearRect(0,0, c.width, c.height);
+        var t=new Date();
+        var h= t.getHours();
+        var m= t.getMinutes();
+        var s= t.getSeconds();
+
+        p.fillStyle='#fff';
+        p.strokeStyle='#666';
+        for(var i=0;i<60;i++){
+
+            p.beginPath();
+            p.moveTo(x,y);
+            p.arc(x, y, r, i*6*Math.PI/180, (i+1)*6*Math.PI/180,false);
+            p.stroke();
+            p.closePath();
+        }
+        p.beginPath();
+
+        p.arc(x,y,r*14/15,0,2*Math.PI,false);
+        p.fill();
+
+        p.lineWidth=5;
+        p.strokeStyle='#FFFF00 ';
+        for(var j=0;j<12;j++){
+            p.beginPath();
+            p.moveTo(x,y);
+            p.arc(x, y, r, j*30*Math.PI/180, (j+1)*30*Math.PI/180,false);
+            p.stroke();
+            p.closePath();
+        }
+
+        p.beginPath();
+        p.fillStyle='#fff';
+        p.arc(x,y,r*18/20,0,2*Math.PI,false);
+        p.fill();
+
+        p.lineWidth=5;
+        p.strokeStyle='#099';
+        p.beginPath();
+        p.moveTo(x,y);
+        p.arc(x,y,r*10/20,(h*30-90+30*m*6/360)*Math.PI/180,(h*30-90+30*m*6/360)*Math.PI/180,false);
+        p.stroke();
+
+        p.lineWidth=2;
+        p.beginPath();
+        p.moveTo(x,y);
+        p.arc(x,y,r*15/20,(m*6-90+6*s*6/360)*Math.PI/180,(m*6-90+6*s*6/360)*Math.PI/180,false);
+        p.stroke();
+
+        p.lineWidth=1;
+        p.strokeStyle='#c00';
+        p.beginPath();
+        p.moveTo(x,y);
+        p.arc(x,y,r*19/20,(s*6-90)*Math.PI/180,(s*6-90)*Math.PI/180,false);
+        p.stroke();
+
+        p.beginPath();
+        p.fillStyle='#c00';
+        p.arc(x,y,r*2/100,0,2*Math.PI,false);
+        p.fill();
+    }
+
+
+
+</script>
+</body>
+</html>

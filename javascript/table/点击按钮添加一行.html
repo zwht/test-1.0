@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<table border="1" width="1000">
+    <thead>
+    <tr>
+        <td>ID</td>
+        <td>姓名</td>
+        <td>年龄</td>
+        <td>删除</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>0</td>
+        <td>赵伟</td>
+        <td>25</td>
+        <td><a href="javascript:;">删除</a></td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>大姐</td>
+        <td>33</td>
+        <td><a href="javascript:;">删除</a></td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>二姐</td>
+        <td>26</td>
+        <td><a href="javascript:;">删除</a></td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>tt</td>
+        <td>23</td>
+        <td><a href="javascript:;">删除</a></td>
+    </tr>
+    </tbody>
+</table>
+<input id="textName" type="text" value="name">
+<input id="textAge" type="text" value="age">
+<input id="btn" type="button" value="添加">
+<script>
+    window.onload = function () {
+
+        var oTbody=document.getElementsByTagName('table')[0].tBodies[0];
+        var oTr=oTbody.rows;
+        var oBtn=document.getElementById('btn');
+        var oTextName=document.getElementById('textName');
+        var oTextAge=document.getElementById('textAge');
+
+        var oldBg='111';
+        addEvent();
+        //初始化方法===========
+        function addEvent(){
+            for(var i=0; i<oTr.length;i++){
+                //隔行变色
+                oTr[i].style.background=i%2?'red':'gray';
+                //鼠标移入
+                oTr[i].onmouseover=function(){
+                    oldBg=this.style.background;
+                    this.style.background='#099';
+                };
+                //鼠标移除
+                oTr[i].onmouseout=function(){
+                    this.style.background=oldBg;
+                };
+                oTr[i].getElementsByTagName('a')[0].onclick=function(){
+                    oTbody.removeChild(this.parentNode.parentNode);
+                }
+
+            }
+        }
+
+        //添加代码==============
+        var addId=oTbody.rows.length;
+        var td={};
+        oBtn.onclick=function(){
+
+            var oTr=document.createElement('tr');
+
+            td=document.createElement('td');
+            td.innerHTML=addId;
+            oTr.appendChild(td);
+
+            td=document.createElement('td');
+            td.innerHTML=oTextName.value;
+            oTr.appendChild(td);
+
+            td=document.createElement('td');
+            td.innerHTML=oTextAge.value;
+            oTr.appendChild(td);
+
+            td=document.createElement('td');
+            td.innerHTML='<a href="javascript:;">删除</a>';
+            oTr.appendChild(td);
+
+
+            addId++;
+            oTbody.appendChild(oTr);
+            addEvent()
+        };
+
+
+    }
+</script>
+</body>
+</html>

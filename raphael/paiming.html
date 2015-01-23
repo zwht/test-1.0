@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div style=" width: 1200px; margin: 0 auto">
+    <div id="paiming"></div>
+    <div id="baifen"></div>
+</div>
+
+</body>
+<script src="../common/js/raphael/raphael.min-2.1.2.js"></script>
+<script>
+
+    var datas = [
+        {score: 100, rank: 20, data: "14/12/23"},
+        {score: 34, rank: 2, data: "14/12/23"},
+        {score: 234, rank: 23, data: "14/12/23"},
+        {score: 1234, rank: 3, data: "14/12/23"},
+        {score: 233, rank: 6, data: "14/12/23"},
+        {score: 120, rank: 1, data: "14/12/23"},
+        {score: 23, rank: 76, data: "14/12/23"},
+        {score: 123, rank: 34, data: "14/12/23"},
+        {score: 45, rank: 12, data: "14/12/23"}
+    ];
+    var maxP = 0;
+    for (var o = 0; o < datas.length; o++) {
+        if (datas[o].score == 0) {
+            datas.splice(o, 1);
+            continue;
+        }
+        if (maxP < datas[o].rank) {
+            maxP = datas[o].rank;
+        }
+    }
+    maxP = (10 - parseInt(maxP) % 10) + parseInt(maxP);
+    //var e = angular.element(element);
+    /**原——maxY:Y坐标最大值，sumY:Y坐标分段数量,svgWidth:svg宽，svgHeight:svg高，
+     *  marginX:坐标X轴移动宽，marginY:坐标Y轴移动宽，top:坐标轴距离svg顶部距离，right:坐标轴距离svg右侧距离
+     **/
+    var origin = {
+                'maxY': maxP,
+                'minY': 0,
+                'sumY': 10,
+                "svgWidth": 1200,
+                "svgHeight": 370,
+                "marginX": 50,
+                "marginY": 36
+            },
+            width = origin.svgWidth - origin.marginX,//有效坐标范围宽
+            height = origin.svgHeight - origin.marginY,//有效坐标范围高
+            /**
+             * 创建坐标轴图表方法
+             */
+            axis = function (data) {
+
+                var netX = 0,
+                        netY = 0,
+                        segmentX = width / (data.length + 1),
+                        segmentY = height / (origin.sumY + 1);
+                //创建Y坐标轴点和数据
+                for (var i = 0; i <= origin.sumY; i++) {
+
+                    //获取Y轴对应点位置,取负数
+                    //netY = -((i + 1) * segmentY);
+                    if (i != origin.sumY) {
+                        netY = -((i + 1) * segmentY);
+                        //创建Y轴上点
+                        /*paper.path("M-10" + netY + "h" + 10)
+                         .attr({'stroke-width': 1, 'stroke': '#000'});*/
+                        //创建Y轴上的数据，数据由origin.maxY和origin.sumY决定
+                        var pm = (origin.maxY - origin.minY) - (i + 1) * ((origin.maxY - origin.minY) / origin.sumY) + origin.minY;
+                        if (i % 2 == 1) {
+                            if (pm == 0) {
+                                pm = 1;
+                            }
+                            paper.text(-25, netY, '第' + pm + '名')
+                                    .attr({'font-size': 12, "fill": "#777777", "font-weight": 700});
+                        }
+                        //创建横向的网格线
+                        netY = -((i + 1) * segmentY);
+                        paper.path("M0 " + netY + "h" + (width + segmentX))
+                                .attr({'stroke-width': 1, 'stroke': '#dfdfdf'});
+                    }
+                }
+                //创建X坐标轴点和数据
+                var pathOneX = '';
+                var pathArr = [];
+                for (var j = 0; j <= data.length; j++) {
+                    netX = (j + 1) * segmentX;//获取X轴对应点位置
+                    if (j != data.length) {
+                        //创建X轴上的点
+                        paper.path("M" + netX + " 0v 5")
+                                .attr({'stroke-width': 1, 'stroke': '#ccc'});
+                        //创建X轴上的点上的数据，从data[j].score上获取
+                        netY = 26;
+                        if (j == (data.length - 1)) {
+                            paper.text(netX, netY, '(本次考试)')
+                                    .attr({"font-size": "12px", "fill": "#099", "font-weight": 700})
+                                    .transform("s0.8");
+                        }
+
+                        paper.text(netX, netY / 2, data[j].data)
+                                .attr({
+                                    "font-size": "12px",
+                                    "fill": "#777777",
+                                    "font-weight": 700,
+                                    "height": 40
+                                });
+                        //生成折线点坐标位置，用来创建下面创建区域面积和路径用
+                        var aPint = (((data[j].rank - origin.minY) / (origin.maxY - origin.minY)) * (height - height / (origin.sumY + 1)) - (height - height / (origin.sumY + 1)));
+                        if (data[j].rank === 1) {
+                            aPint = (((0 - origin.minY) / (origin.maxY - origin.minY)) * (height - height / (origin.sumY + 1)) - (height - height / (origin.sumY + 1)));
+                        }
+                        if (j == 0) {
+                            pathArr += netX + ',' + aPint;
+                            pathOneX = netX;//区域面积结束点X坐标
+                        } else {
+                            pathArr += 'L' + netX + ',' + aPint;
+                        }
+                    }
+                }
+                //创建X轴线
+                paper.path("m0 0h" + (width + segmentX))
+                        .attr({'stroke-width': 1, 'stroke': "#ccc"});
+                //创建Y轴线
+                /*paper.path("m0 0v -" + (height + segmentY))
+                 .attr({'stroke-width': 2, 'stroke': "#000"});*/
+                //创建区域面积
+                paper.path('m' + pathArr + 'L' + (netX - width / (data.length + 1)) + ',0L' + pathOneX + ' 0')
+                        .attr({'stroke-width': 0, "fill": 'rgb(150,198,94)', "opacity": .2});
+                //创建数据路径
+                paper.path('m' + pathArr)
+                        .attr({'stroke-width': 2, 'stroke': '#96c65e'})
+                        .glow({width: 10, fill: false, opacity: .5, color: '#96c65e'});
+                for (var k = 0; k < data.length; k++) {
+                    //获取X轴对应点位置
+                    netX = (k + 1) * segmentX;
+                    var cPint = (((data[k].rank - origin.minY) / (origin.maxY - origin.minY)) * (height - height / (origin.sumY + 1)) - (height - height / (origin.sumY + 1)));
+                    if (data[k].rank === 1) {
+                        cPint = (((0 - origin.minY) / (origin.maxY - origin.minY)) * (height - height / (origin.sumY + 1)) - (height - height / (origin.sumY + 1)));
+                    }
+                    //创建数据圆点,并且把圆点隐藏，等下面用定时器显示圆点，这样就带有动画效果
+                    paper.circle(netX, cPint, 6)
+                            .attr({fill: "none", stroke: "none", "stroke-width": 2, "stroke-opacity": 1});
+                    //创建矩形用于鼠标移入获取焦点显示数据
+                    paper.rect((netX - segmentX / 2), (-height), segmentX, height)
+                            .attr({fill: "rgb(0,0,0)", "stroke": 'none', "stroke-opacity": 0, "opacity": 0});
+                }
+            };
+    var paper = Raphael(paiming, origin.svgWidth, origin.svgHeight);
+    //改变画布原点，宽高
+    paper.setViewBox(-(origin.marginX), -(origin.svgHeight - origin.marginY), (origin.svgWidth), (origin.svgHeight));
+    //执行创建坐标轴及相应数据
+
+    axis(datas);
+    //遍历所有svg内部元素
+    var circleArr = [];//得到所有原点
+    var rectArr = [];//得到所有矩形
+    paper.forEach(function (el) {
+        if (el.attr('r') == 6) {
+            circleArr.push(el);
+        }
+        if (el.attr('stroke-opacity') == 0) {
+            rectArr.push(el);
+        }
+    });
+    //用定时器把圆点显示出来
+    var cI = 0;
+    var time = setInterval(function () {
+        if (cI < circleArr.length) {
+            circleArr[cI].attr({
+                fill: "#96c65e",
+                stroke: "#fff",
+                "stroke-width": 2,
+                "stroke-opacity": 1
+            })
+                    .mouseover(function () {
+                        this.animate({
+                            fill: "#96c65e",
+                            "r": 10,
+                            stroke: "#fff",
+                            "stroke-width": 5,
+                            "stroke-opacity": .5
+                        }, 400);
+                    })
+                    .mouseout(function () {
+                        this.animate({
+                            fill: "#96c65e",
+                            "r": 6,
+                            stroke: "#fff",
+                            "stroke-width": 2,
+                            "stroke-opacity": 1
+                        }, 400)
+                    });
+            cI++;
+        } else {
+            clearInterval(time);
+        }
+    }, 100);
+    //循环rectArr
+    var rectBoxXY = {};
+    for (var z = 0; z < rectArr.length; z++) {
+        paper.customAttributes.newId = function (num) {
+            return {fill: "hsb(" + num + ", 0.75, 1)"};
+        };
+        rectArr[z].attr({"text-anchor": z})
+                .mouseover(function () {
+                    this.prev.attr({
+                        fill: "#96c65e",
+                        "r": 10,
+                        stroke: "#fff",
+                        "stroke-width": 5,
+                        "stroke-opacity": .5
+                    });
+                    rectBoxXY.data = datas[this.attr("text-anchor")];
+                    rectBoxXY.x = this.prev.attrs.cx;
+                    rectBoxXY.y = this.prev.attrs.cy;
+                })
+                .mouseout(function () {
+                    this.prev.attr({
+                        fill: "#96c65e",
+                        "r": 6,
+                        stroke: "#fff",
+                        "stroke-width": 2,
+                        "stroke-opacity": 1
+                    });
+                    rectBoxXY.x = "";
+                    rectBoxXY.y = "";
+                })
+    }
+
+</script>
+<script>
+    /**原——maxY:Y坐标最大值，sumY:Y坐标分段数量,svgWidth:svg宽，svgHeight:svg高，
+     *  marginX:坐标X轴移动宽，marginY:坐标Y轴移动宽，top:坐标轴距离svg顶部距离，right:坐标轴距离svg右侧距离
+     **/
+    var questionStuArr=[
+        {date:"14/12/43",bf:12},
+        {date:"14/12/43",bf:34},
+        {date:"14/12/43",bf:67},
+        {date:"14/12/43",bf:23},
+        {date:"14/12/43",bf:48},
+        {date:"14/12/43",bf:90},
+        {date:"14/12/43",bf:1},
+        {date:"14/12/43",bf:23}
+    ];
+
+    var origin = {
+                'maxY': 100,
+                'sumY': 10,
+                "svgWidth": 1200,
+                "svgHeight": 370,
+                "marginX": 50,
+                "marginY": 30
+            },
+            width = origin.svgWidth - origin.marginX,//有效坐标范围宽
+            height = origin.svgHeight - origin.marginY,//有效坐标范围高
+            /**
+             * 创建坐标轴图表方法
+             */
+            axis = function (data) {
+                var quesLen = data.length;
+                //console.log(data);
+                var netX = 0,
+                        netY = 0,
+                        segmentX = width / (quesLen + 1),
+                        segmentY = height / (origin.sumY + 1);
+                //创建Y坐标轴点和数据
+                for (var i = 0; i <= origin.sumY; i++) {
+                    if (i != origin.sumY) {
+                        //创建横向的网格线
+                        netY = -((i + 1) * segmentY);//获取Y轴对应点位置,取负数
+                        paper.path("M0 " + netY + "h" + (width + segmentX))
+                                .attr({'stroke-width': 1, 'stroke': '#dfdfdf'});
+                        //创建Y轴上点
+                        /*paper.path("M-10" + netY + "h" + 10)
+                         .attr({'stroke-width': 1, 'stroke': '#000'});*/
+                        //创建Y轴上的数据，数据由origin.maxY和origin.sumY决定
+                        if (window.navigator.userAgent.indexOf("Firefox") >= 0) {
+                        } else {
+                            netY = netY / 2;
+                        }
+                        if (i % 2 == 1) {
+                            paper.text(-25, netY, (i + 1) * (origin.maxY / origin.sumY) + '人')
+                                    .attr({'font-size': 12, "fill": "#777777", "font-weight": 700});
+                        }
+                    }
+                }
+                //创建X坐标轴点和数据
+                var pathOneX = '';
+                var pathArr = [];
+                for (var j = 0; j <= quesLen; j++) {
+                    netX = (j + 1) * segmentX;//获取X轴对应点位置
+                    if (j != quesLen) {
+                        //创建X轴上的点
+                        paper.path("M" + netX + " 0v 5")
+                                .attr({'stroke-width': 1, 'stroke': '#ccc'});
+                        //创建X轴上的点上的数据，从data[j].score上获取
+                        if (window.navigator.userAgent.indexOf("Firefox") >= 0) {
+                            netY = 15;
+                        } else {
+                            netY = 8;
+                        }
+                        paper.text(netX, netY, data[j].date)
+                                .attr({
+                                    'font-size': 12,
+                                    "fill": "#777777",
+                                    "font-weight": 700,
+                                    "height": 40
+                                });
+                        //生成折线点坐标位置，用来创建下面创建区域面积和路径用
+                        if (j == 0) {
+                            pathArr += netX + ',' + (-(data[j].bf) * (height / 100));
+                            pathOneX = netX;//区域面积结束点X坐标
+                        } else {
+                            pathArr += 'L' + netX + ',' + (-(data[j].bf) * (height / 100));
+                        }
+                    }
+                }
+                //创建X轴线
+                paper.path("m0 0h" + (width + segmentX))
+                        .attr({'stroke-width': 1, 'stroke': "#ccc"});
+                //创建Y轴线
+                /*paper.path("m0 0v -" + (height + segmentY))
+                 .attr({'stroke-width': 2, 'stroke': "#000"});*/
+                //创建区域面积
+                paper.path('m' + pathArr + 'L' + (netX - width / (quesLen + 1)) + ',0L' + pathOneX + ' 0')
+                        .attr({'stroke-width': 0, "fill": 'rgb(150,198,94)', "opacity": .2});
+                //创建数据路径
+                paper.path('m' + pathArr)
+                        .attr({'stroke-width': 2, 'stroke': '#96c65e'})
+                        .glow({width: 10, fill: false, opacity: .5, color: '#96c65e'});
+                for (var k = 0; k < quesLen; k++) {
+                    //获取X轴对应点位置
+                    netX = (k + 1) * segmentX;
+                    //创建数据圆点,并且把圆点隐藏，等下面用定时器显示圆点，这样就带有动画效果
+                    paper.circle(netX, (-(data[k].bf) * (height / 100)), 6)
+                            .attr({fill: "none", stroke: "none", "stroke-width": 2, "stroke-opacity": 1});
+                    //创建矩形用于鼠标移入获取焦点显示数据
+                    paper.rect((netX - segmentX / 2), (-height), segmentX, height)
+                            .attr({
+                                fill: "rgb(0,0,0)",
+                                "stroke": 'none',
+                                "stroke-opacity": 0,
+                                "opacity": 0
+                            });
+                }
+            };
+    /**
+     * 执行创建图表
+     */
+    //创建画布
+    var paper = Raphael("baifen", origin.svgWidth, origin.svgHeight);
+    //改变画布原点，宽高
+    paper.setViewBox(-(origin.marginX), -(origin.svgHeight - origin.marginY), (origin.svgWidth), (origin.svgHeight));
+    //执行创建坐标轴及相应数据
+    axis(questionStuArr);
+    //遍历所有svg内部元素
+    var circleArr = [];//得到所有原点
+    var rectArr = [];//得到所有矩形
+    paper.forEach(function (el) {
+        if (el.attr('r') == 6) {
+            circleArr.push(el);
+        }
+        if (el.attr('stroke-opacity') == 0) {
+            rectArr.push(el);
+        }
+    });
+    //用定时器把圆点显示出来
+    var cI = 0;
+    var time = setInterval(function () {
+        if (cI < circleArr.length) {
+            circleArr[cI].attr({
+                fill: "#96c65e",
+                stroke: "#fff",
+                "stroke-width": 2,
+                "stroke-opacity": 1
+            })
+                    .mouseover(function () {
+                        this.animate({
+                            fill: "#96c65e",
+                            "r": 10,
+                            stroke: "#fff",
+                            "stroke-width": 5,
+                            "stroke-opacity": .5
+                        }, 400);
+                    })
+                    .mouseout(function () {
+                        this.animate({
+                            fill: "#96c65e",
+                            "r": 6,
+                            stroke: "#fff",
+                            "stroke-width": 2,
+                            "stroke-opacity": 1
+                        }, 400)
+                    });
+            cI++;
+        } else {
+            clearInterval(time);
+        }
+    }, 100);
+    //循环rectArr
+    var rectBoxXY = {};
+    for (var z = 0; z < rectArr.length; z++) {
+        rectArr[z].attr({"text-anchor": z})
+                .mouseover(function () {
+                    this.prev.attr({
+                        fill: "#96c65e",
+                        "r": 10,
+                        stroke: "#fff",
+                        "stroke-width": 5,
+                        "stroke-opacity": .5
+                    });
+                    rectBoxXY.data = questionStuArr[this.attr("text-anchor")];
+                    //console.log(rectBoxXY.student);
+                    rectBoxXY.x = this.prev.attrs.cx;
+                    rectBoxXY.y = this.prev.attrs.cy;
+                })
+                .mouseout(function () {
+                    this.prev.attr({
+                        fill: "#96c65e",
+                        "r": 6,
+                        stroke: "#fff",
+                        "stroke-width": 2,
+                        "stroke-opacity": 1
+                    });
+                    rectBoxXY.x = "";
+                    rectBoxXY.y = "";
+                });
+    }
+
+</script>
+</html>

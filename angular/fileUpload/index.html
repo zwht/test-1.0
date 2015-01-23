@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../../common/js/angular/angular-file-upload-shim.min.js"></script>
+    <script src="../../common/js/angular/angular.min.js"></script>
+    <script src="../../common/js/angular/angular-file-upload.min.js"></script>
+    <script src="index.js"></script>
+</head>
+<body ng-controller="myCtrl">
+<div>
+    <input type="text" ng-model="myModelObj">
+    <input type="file" ng-file-select="onFileSelect($files)">
+    <input type="file" ng-file-select="onFileSelect($files)" multiple accept="image/*">
+    <div class="button" ng-file-select="onFileSelect($files)" data-multiple="true">yyyyyyyyyy</div>
+    <div ng-file-drop="onFileSelect($files)" ng-file-drag-over-class="optional-css-class-name-or-function" ng-show="dropSupported">drop files here</div>
+    <div ng-file-drop-available="dropSupported=true" ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
+    <button ng-click="upload.abort()">取消上传</button>
+</div>
+</body>
+</html>

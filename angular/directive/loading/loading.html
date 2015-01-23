@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html ng-app="ngZw">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../../../common/js/jquery/jquery-1.10.2.js"></script>
+    <script src="../../../common/js/raphael/raphael.2.1.2.js"></script>
+    <script src="../../../common/js/angular/angular.min.js"></script>
+    <script src="loading.js"></script>
+
+</head>
+<body ng-controller="loadingCtr">
+<button ng-click="changKey()" ng-bind="key"></button>
+<div style="height: 500px; background: #000">
+    <div data-zw-loading="" id="first" data-key="key" data-r1="100" data-r2="100" data-count="22"
+         data-stroke-width="200" data-stroke-colour="#fff">
+    </div>
+</div>
+
+</body>
+</html>

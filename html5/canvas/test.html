@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+<div style="height:100px"></div>
+<canvas id="canvas" width="200" height="100" style="background:#000"></canvas>
+<script>
+
+	window.onload=function(){
+		console.log(111)
+		var can=document.getElementById("canvas");
+
+		can.onmousemove=function(ev){
+			event=ev || event;
+			var x=event.clientX;
+			var y=event.clientY;
+			var evs=getPointOnCanvas(can,x,y);
+			console.log(evs);
+		}
+
+	};
+
+	function getPointOnCanvas(canvas, x, y) {
+
+		var bbox = canvas.getBoundingClientRect();
+		return { x: x - bbox.x * (canvas.width / bbox.width),
+
+			y: y - bbox.y * (canvas.height / bbox.height)
+
+		};
+
+	}
+</script>
+</body>
+</html>

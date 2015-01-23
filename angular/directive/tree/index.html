@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html ng-app="ngZw">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../../../common/js/jquery/jquery-1.10.2.js"></script>
+    <script src="../../../common/js/angular/angular.min.js"></script>
+    <script src="index.js"></script>
+    <style>
+        body{}
+
+
+
+        .zw-tree{}
+        .zw-tree,.zw-tree ul{list-style-type: none; margin: 0; padding: 0;}
+        .zw-tree li{padding: 0; margin: 0; background: url("tree-line-y.png") repeat-y;}
+        .zw-tree .tree-li-last{background: url("tree-line-y1.png") no-repeat}
+
+        .zw-tree li ul{ margin-left: 80px; display: none}
+        .zw-tree li .tree-li-title{padding-left:73px; background: url("tree-line-x.png")  0 center no-repeat }
+
+        .zw-tree li .tree-li-title>span{ display: inline-block; height: 30px; width: 30px; vertical-align: middle; background: url("tree-bg1.png") 0 -30px no-repeat}
+        .zw-tree .minus>.tree-li-title>span{background: url("tree-bg1.png") no-repeat}
+        .zw-tree li .tree-li-title>span>span{ display: inline-block; height: 16px; width: 16px; margin:7px; cursor: pointer}
+
+        .zw-tree li .tree-li-title a{vertical-align: middle; cursor: pointer; color: #666666}
+        .zw-tree .hover .tree-li-title a{color: #98b57a}
+        .zw-tree .hover .tree-li-bar>div>div{background: #ff3b3b}
+        .zw-tree li .tree-li-title a i{color: #c64b2e;font-style: normal}
+        .zw-tree li .tree-li-bar{ height: 10px; margin-left: 80px; padding-bottom: 20px}
+        .minus>.tree-li-bar{background: url("tree-line-y.png") repeat-y !important;}
+        .zw-tree li .tree-li-bar>div{ height: 10px; background: #eeeeee; margin-left: 24px}
+        .zw-tree li .tree-li-bar>div>div{ height: 10px; background: #ff9d9d}
+        .tree-btn-last{ background-position: 0 -53px !important;}
+
+
+        .zw-tree .tree-li-last { background-position: 0 0}
+        .zw-tree .tree-li-last .tree-li-bar{ background: none}
+        .zw-tree .tree-li-first{ background-position: 0 -50px}
+
+
+        .first-hide>li,.first-hide>li>.tree-li-title{background: none !important; padding-left: 0; margin-left: 0;}
+        .first-hide>li>.tree-li-title>.tree-btn-last{background-position: 0 -76px !important;}
+        .first-hide>li>.tree-li-bar,.first-hide>li>ul{padding-left: 0; margin-left: 7px;}
+    </style>
+</head>
+<body ng-controller="treeCtrl">
+
+<div data-zw-tree="data" data-first-hide="true"></div>
+
+</body>
+</html>

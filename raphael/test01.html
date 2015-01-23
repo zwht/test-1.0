@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../common/js/raphael/raphael.min-2.1.2.js"></script>
+    <style>
+        #first {
+            background: #fff;
+            border: 1px solid #009999;
+            width: 1000px;
+            height: 500px;
+            margin: 0 auto
+        }
+    </style>
+</head>
+<body>
+<div id="first">
+
+</div>
+<script>
+    window.onload = function () {
+
+        var width = 1000,//svg宽
+                height = 500,//svg高
+                origin = {"x": 50, "right": 50, "y": 450, "top": 50, 'maxY': 50, 'sumY': 10},//原
+                mainWidth = width - origin.x - origin.right,
+                mainHeight = origin.y - origin.top,
+                axis = function (sw, sc, data) {
+
+                    var netX = 0;
+                    var netY = 0;
+                    //创建纵坐标轴
+
+                    for (var i = 0; i < origin.sumY; i++) {
+                        netY = origin.y - (i + 1) * mainHeight / origin.sumY;
+                        paper.path("M" + origin.x + " " + netY + "h" + (width - origin.x)).attr({'stroke-width': 1, 'stroke': '#ccc'});
+                        paper.path("M" + (origin.x - 10) + " " + netY + "h" + 10).attr({'stroke-width': 1, 'stroke': '#000'});
+                        paper.text((origin.x - 30), netY, (i + 1) * (origin.maxY / origin.sumY) + '人');
+                    }
+                    //创建横坐标轴
+                    var pathArr = '';
+                    var pathPont = '';
+                    var pathOneX = '';
+                    for (var j = 0; j < data.length; j++) {
+                        netX = (j + 1) * mainWidth / data.length + 50;
+                        paper.path("M" + netX + " " + origin.y + "v 10").attr({'stroke-width': 1, 'stroke': '#000'});
+                        paper.text(netX, (origin.y + 20), data[j].score);
+
+
+                        if (j == 0) {
+                            pathPont = netX + ',' + (origin.y - (data[j].sum / origin.maxY) * mainHeight);
+                            pathOneX = netX;
+                        } else {
+                            pathPont = 'L' + netX + ',' + (origin.y - (data[j].sum / origin.maxY) * mainHeight);
+                        }
+                        pathArr += pathPont;
+
+
+                    }
+                    var pathArea = paper.path('m' + pathArr + 'L' + netX + ',' + origin.y + 'L' + pathOneX + ' ' + origin.y).attr({'stroke-width': 0, "fill": 'rgba(149,18,49,.3)'});
+                    var pathLine = paper.path('m' + pathArr).attr({'stroke-width': 2, 'stroke': '#099'});
+
+
+                    paper.setStart();
+                    var cI = 0;
+                    var time = setInterval(function () {
+                        if (cI < data.length) {
+                            netX = (cI + 1) * mainWidth / data.length + 50;
+                            paper.circle(netX, (origin.y - (data[cI].sum / origin.maxY) * mainHeight), 6)
+                                    .animate({fill: "#FFF", stroke: "#099", "stroke-width": 2, "stroke-opacity": 1}, 500)
+                                    .mouseover(function () {
+                                        this.animate({fill: "#FFF", "r": 10, stroke: "#099", "stroke-width": 5, "stroke-opacity": .5}, 400)
+                                    })
+                                    .mouseout(function () {
+                                        this.animate({fill: "#FFF", "r": 6, stroke: "#099", "stroke-width": 2, "stroke-opacity": 1}, 400)
+                                    });
+                            cI++;
+                        } else {
+                            clearInterval(time);
+                        }
+
+                    }, 500);
+                    var st = paper.setFinish();
+                    console.log(st);
+
+                    var axisX = paper.path("m" + origin.x + " " + origin.y + "h" + (width - origin.x)).attr({'stroke-width': sw, 'stroke': sc});
+                    var axisY = paper.path("m" + origin.x + " " + origin.y + "v -" + origin.y).attr({'stroke-width': sw, 'stroke': sc});
+
+
+                },
+                path1 = function (data) {
+                    for (var i = 0; i < data.length; i++) {
+
+                    }
+
+                };
+        //数据
+        var data = [
+            {"sum": 10, "score": "0-20", "scoreId": 1},
+            {"sum": 5, "score": "21-40", "scoreId": 2},
+            {"sum": 20, "score": "41-60", "scoreId": 3},
+            {"sum": 0, "score": "61-80", "scoreId": 4},
+            {"sum": 25, "score": "81-100", "scoreId": 5},
+            {"sum": 50, "score": "81-100", "scoreId": 5},
+            {"sum": 35, "score": "81-100", "scoreId": 5},
+            {"sum": 30, "score": "81-100", "scoreId": 5},
+            {"sum": 40, "score": "81-100", "scoreId": 5},
+            {"sum": 45, "score": "101-120", "scoreId": 6}
+        ];
+
+        console.log(data);
+        var paper = Raphael("first", width, height);
+
+        //paper.setViewBox(-50, -450, 1000, 500);
+        //paper.circle(0,0,10);
+        axis(1, '#000', data);
+        path1(data);
+
+
+    }
+</script>
+</body>
+</html>

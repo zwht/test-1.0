@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312"/>
+    <title>jQuery超酷百叶窗幻灯片 - 站长素材</title>
+</head>
+<body>
+
+<link rel='stylesheet' href='css/style.css' type='text/css'/>
+
+<script type='text/javascript' src='js/jquery-1.4.2.min.js'></script>
+<script type='text/javascript' src='js/jquery.nivo.slider.pack.js'></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#slider').nivoSlider({
+            effect: 'random',
+            slices: 15,
+            animSpeed: 500,
+            pauseTime: 3000,
+            directionNav: true,
+            controlNav: true,
+            keyboardNav: true,
+            randomStart:true
+        });
+    });
+</script>
+
+<div class="theme-default">
+
+    <div id="slider" class="nivoSlider">
+        <img src="images/11.jpg"/>
+        <img src="images/22.jpg"/>
+        <img src="images/31.jpg"/>
+        <img src="images/41.jpg"/>
+    </div>
+
+</div>
+</body>
+</html>

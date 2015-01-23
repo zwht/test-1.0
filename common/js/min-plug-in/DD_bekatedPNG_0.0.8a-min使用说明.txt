@@ -1,0 +1,14 @@
+一、DD_bekatedPNG_0.0.8a-min.js  是一个兼容ie6小的png图片的插件
+
+	使用方法
+	1:  DD_belatedPNG.fix('.png_bg');  //参数是css选择器 argument is a CSS setector
+	2:  DD_belatedPNG.fixPng(someNode); //参数是dom节点 argument is a HTMLDomElement
+
+	jquery内有自己的png插件
+
+	ie兼容代码：
+	<!--[if IE 6]>
+	<script src="DD_belatedPNG_0.0.8a-min.js"></script>
+	<![endif]-->
+
+

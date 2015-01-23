@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<input id="text" type="text"><button id="btn">搜索</button>
+<table border="1" width="1000">
+    <thead>
+    <tr>
+        <td>ID</td>
+        <td>姓名</td>
+        <td>年龄</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>0</td>
+        <td>赵伟</td>
+        <td>25</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>大姐</td>
+        <td>33</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>二姐</td>
+        <td>26</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>tt</td>
+        <td>23</td>
+    </tr>
+    </tbody>
+</table>
+<script>
+    window.onload = function () {
+
+        var oTable=document.getElementsByTagName('table')[0].tBodies[0].rows;
+        var oText=document.getElementById('text');
+        var oBtn=document.getElementById('btn');
+
+        oBtn.onclick=function(){
+            for(var i=0;i<oTable.length;i++){
+                var oldColor=oTable[i].style.background;
+                if(oText.value.toLowerCase()==oTable[i].cells[1].innerHTML.toLowerCase()){
+                    oTable[i].style.background='#099';
+                }else{
+                    oTable[i].style.background=oldColor;
+                }
+            }
+        };
+        for(var i=0; i<oTable.length; i++){
+            oTable[i].style.background=i%2?'red':'gray';
+        }
+        console.log(i);
+    }
+</script>
+</body>
+</html>

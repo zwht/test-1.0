@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{margin: 0; padding: 0}
+        ul{ list-style-type: none}
+        .content{ width: 1200px; margin: 0 auto}
+        .left { width: 1000px; float: left}
+        .left li{ height: 200px; width: 100%; text-align: center; font-size: 10em; background: #f1f1f1}
+        .left li:nth-child(odd){ background: #843534}
+
+        .right{ width: 200px; float: left; position: relative}
+        .right ul{ position: fixed}
+        .right ul li{ height: 30px; width: 190px; cursor: pointer; background: #843534; color: #fff; margin: 3px auto; line-height: 30px; padding-left: 20px;}
+        .right ul .active{ background: #099}
+    </style>
+</head>
+<body ng-controller="myCtrl">
+<div class="content">
+    <ul class="left">
+        <li id="test{{data.id}}" ng-repeat="data in data">{{data.id+data.id+data.id+data.id+data.id}}</li>
+
+    </ul>
+    <div class="right">
+        <ul>
+            <li ng-repeat="data in data" ng-click="demo($event.target,'test'+data.id)">{{data.id}}</li>
+        </ul>
+    </div>
+
+</div>
+
+<script src="../../common/js/jquery/jquery-1.10.2.js"></script>
+<script src="../../common/js/angular/angular.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

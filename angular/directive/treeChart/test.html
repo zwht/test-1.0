@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<script type="text/javascript">
+    // 两秒后模拟点击
+    window.onload=function(){
+        document.getElementById("clickMe").onclick=function(){
+            alert('clicked')
+        };
+    };
+
+    setTimeout(function () {
+        // IE
+        if (document.all) {
+            document.getElementById("clickMe").click();
+        }
+        // 其它浏览器
+        else {
+            var e = document.createEvent("MouseEvents");
+            e.initEvent("click", true, true);
+            document.getElementById("clickMe").dispatchEvent(e);
+        }
+    }, 2000);
+</script>
+
+<a href="#" id="clickMe">link</a>
+</body>
+</html>
