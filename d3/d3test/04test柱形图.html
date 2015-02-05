@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../../common/js/d3/d3.js"></script>
+    <style>
+        .div{ background: #c0a16b; width: 20px; margin: 10px; text-align: center; float: left; position: absolute; bottom: 0}
+    </style>
+</head>
+<body>
+<script>
+    var dataset = [];
+    for(var i=0;i<30;i++){
+        var n=Math.round(Math.random()*30);
+        dataset.push(n);
+    }
+
+    d3.select("body").selectAll("div")
+            .data(dataset)
+            .enter()
+            .append("div")
+            .text(function (d) {
+                return d;
+            })
+            .attr('class','div')
+            .style("height", function (d) {
+
+                var w=d*10;
+
+                return w+'px';
+            })
+            .style("left", function (d,i) {
+                var w=i*30;
+                return w+'px';
+            });
+</script>
+</body>
+</html>
