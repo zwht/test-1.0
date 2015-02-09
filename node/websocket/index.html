@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>多人聊天室</title>
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="node_modules/socket.io/node_modules/socket.io-client/socket.io.js"></script>
+</head>
+<body>
+<script>
+    $(function(){
+        var socket = io('http://localhost');
+        /*socket.on('news', function (data) {
+            console.log(data);
+            socket.emit('my other event', { my: 'data' });
+        });
+*/
+        var html='';
+        $("#button").click(function(){
+            //console.log($("#input").val());
+            socket.emit('em', { my: $("#input").val()});
+
+        });
+        socket.on('news', function (data) {
+            console.log(data);
+            html=data.hello.my;
+            $("div").html(html);
+        });
+    });
+
+</script>
+<div></div>
+<input id="input">
+<input type="button" id="button" value="提交">
+</body>
+</html>

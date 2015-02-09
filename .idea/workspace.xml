@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c3901210-d0cf-4f36-82b3-55c12de24a32" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gitconfig" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/d3/d3test/01test.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/d3/d3test/02test.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/d3/d3test/03test.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/d3/d3test/04test柱形图.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/d3/d3test/05test画园.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/d3/d3test/06test散点图.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/d3/gkHwJ.htm" afterPath="$PROJECT_DIR$/d3/gkHwJ.htm" />
-    </list>
+    <list default="true" id="c3901210-d0cf-4f36-82b3-55c12de24a32" name="Default" comment="" />
     <ignored path="Git.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -38,8 +27,8 @@
       <file leaf-file-name="06test散点图.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/d3/d3test/06test散点图.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.15594059" vertical-offset="578" max-vertical-offset="2640">
-              <caret line="32" column="10" selection-start-line="32" selection-start-column="10" selection-end-line="32" selection-end-column="10" />
+            <state vertical-scroll-proportion="0.509901" vertical-offset="578" max-vertical-offset="2640">
+              <caret line="45" column="34" selection-start-line="45" selection-start-column="34" selection-end-line="45" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -366,8 +355,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/d3/d3test/06test散点图.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.15594059" vertical-offset="578" max-vertical-offset="2640">
-          <caret line="32" column="10" selection-start-line="32" selection-start-column="10" selection-end-line="32" selection-end-column="10" />
+        <state vertical-scroll-proportion="0.509901" vertical-offset="578" max-vertical-offset="2640">
+          <caret line="45" column="34" selection-start-line="45" selection-start-column="34" selection-end-line="45" selection-end-column="34" />
           <folding />
         </state>
       </provider>
