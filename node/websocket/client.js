@@ -91,7 +91,7 @@
             this.msgObj.style.minHeight = (this.screenheight - db.clientHeight + this.msgObj.clientHeight) + "px";
             this.scrollToBottom();
 //连接websocket后端服务器
-            this.socket = io.connect('ws://realtime.plhwin.com:8888');
+            this.socket = io.connect('http://172.16.40.53:8888');
 //告诉服务器端有用户登录
             this.socket.emit('login', {userid: this.userid, username: this.username});
 //监听新用户登录
@@ -105,7 +105,7 @@
 //监听消息发送
             this.socket.on('message', function (obj) {
                 var isme = (obj.userid == CHAT.userid) ? true : false;
-                var contentDiv = '<div>' + obj.content + '</div>';
+                var contentDiv = '<b>' + obj.content + '</b>';
                 var usernameDiv = '<span>' + obj.username + '</span>';
                 var section = d.createElement('section');
                 if (isme) {
