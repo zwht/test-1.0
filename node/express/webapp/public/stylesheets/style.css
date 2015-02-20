@@ -1,0 +1,60 @@
+*{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+*:before,*:after{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+html{height:100%; width:100%; font-size:10px !important;-webkit-tap-highlight-color:rgba(0, 0, 0, 0);-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;}
+body{height:100%; width:100%; color: #686868; overflow-y: auto;overflow-x:hidden; font-family:"微软雅黑", Helvetica, Arial, sans-serif;margin:0;line-height:1.42857143}
+
+a,a:visited,a:link{color: #a2a2a2;text-decoration:none}
+ul{list-style-type:none;margin:0;padding:0}
+li{margin:0;padding:0}
+img{ width: 100%;vertical-align:middle;}
+h1, h2,h3,h4,h5,h6,p{ margin:0;padding:0}
+.pull-right{float:right !important;}
+.pull-left{float:left !important;}
+.hide{display:none !important;}
+.show{display:block !important;}
+.clear{ clear:both}
+.clear:after{ content:".";height:0;visibility:hidden;display:block;clear:both;}
+.overflow{overflow:hidden;text-overflow:ellipsis; white-space:nowrap;}
+img{vertical-align:middle;}@media screen and (min-width: 481px){
+  body{ font-size:2em}
+}
+@media screen and (min-width: 321px) and (max-width: 480px){
+  body{ font-size:1.8em}
+}
+@media screen and (min-width: 100px) and (max-width: 320px){
+  body{ font-size:1.6em}
+}
+.content{ margin: 0 auto;max-width: 360px; min-height: 100%; box-shadow: 0 0 3px #ccc; position: relative;overflow-x: hidden}
+
+
+.app{height:100%;position:relative;z-index:2;overflow:hidden;-webkit-transition:-webkit-transform 400ms ease;transition:transform 400ms ease;}
+
+.navbar{position:relative;min-height:3em; line-height:3em;border:1px solid transparent;background:#3e7814;
+  color: #ffffff}
+.navbar-brand-center{margin:0 3em; height:3em; text-align:center;white-space:nowrap;overflow:hidden;
+  -o-text-overflow:ellipsis;text-overflow:ellipsis;}
+.navbar-brand-center img{ width: 60%; margin-top: -.25em}
+.navbar-brand-left,.navbar-brand-right{position:absolute;top:0;height:3em;padding: 0 .7em;width:3em;}
+.navbar-brand-left{left:0;}
+.navbar-brand-left img{ width: 100%;margin-top: -.25em}
+.navbar-brand-right{right:.4em}
+
+
+.sidebar{z-index:0;position:absolute;top:0;bottom:0;display:block;-webkit-transition:-webkit-transform 400ms ease;transition:transform 400ms ease;}
+.sidebar-left{background:#243702;width:10em;left:0;right:auto;-webkit-transform:translate3d(-10em, 0, 0);
+  transform:translate3d(-10em, 0, 0);}
+.sidebar-right{background:#243702;width:10em;left:auto;right:0;-webkit-transform:translate3d(10em, 0, 0);
+  transform:translate3d(10em, 0, 0);}
+.sidebar-right ul{ color: #ffffff; text-align: center; padding: 1em 0}
+.sidebar-right ul li{ line-height: 2.5em; background: url("../images/icon/农业首页-2_06.png") no-repeat bottom}
+.sidebar-right ul li:hover{ color: #ffc127}
+.sidebar-right ul li:last-child{ background: none}
+.sidebar-left-in .sidebar-left{-webkit-transform:translate3d(0, 0, 0);transform:translate3d(0, 0, 0);}
+.sidebar-right-in .sidebar-right{-webkit-transform:translate3d(0, 0, 0);transform:translate3d(0, 0, 0);}
+
+.sidebar-left-in .app{-webkit-transform:translate3d(10em, 0, 0);transform:translate3d(10em, 0, 0);}
+.sidebar-right-in .app{-webkit-transform:translate3d(-10em, 0, 0);transform:translate3d(-10em, 0, 0);}
+.sidebar-shade{text-indent:-9999px;position:absolute;z-index:100;background:rgba(0,0,0,.5)}
+.sidebar-right-in .sidebar-shade,.sidebar-left-in .sidebar-shade{top:0; left:0; width:100%;height:100%; }
+
+.scroll-content{overflow-y:auto; overflow-x:hidden}
