@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+</head>
+
+<body>
+<p><span ><span >今天给小伙伴们分享一个好东西，webApp轮播效果，支持手机上用手左右滑动的效果，<span >因为手机的触摸事件和PC端用鼠标操作的事件是不同的，所以我就需要针对移动端的设备触摸事件做相应的轮播特效。大家可以去看下易迅的：</span><a target="_blank" title="手机版易迅" href="http://m.yixun.com/t/" rel="nofollw">http://m.yixun.com/t/</a><span >&nbsp;和淘宝的</span><a target="_blank" title="手机版淘宝网" href="http://m.taobao.com/?sid=6a73aca7adfacc730e9cc5e30c31721e&amp;an=1" rel="nofollw">http://m.taobao.com/</a><span >&nbsp;他们的轮播刚刚就是针对手机做的，在手机观看下你触摸滑动屏幕就可以切换幻灯片。</span></span></span></p>
+<p> <span ><span ><span >注意：本人在此声明，<span >此效果在pc上不支持，所以小伙伴们把这个传上服务器，在用手机浏览器访问体验效果</span></span></span></span></p>
+<p> <span ><span >在网上找到一个非常不错的javascript写的原生插件，代码写的非常标准简洁，压缩后的大小只有4k，调用方法也简单，在这里应该有人会问为什么不用Jquery的插件！就单单为了这个效果就要加载jquery这个库90k+,对整个页面的大小造成了很大的负担，所以还是觉得用原生js写会好些，其实做手机版的网站，最好所有的js都用原生js写，因为这样整个前端页面就会控制在一个页面10k都可能不到的情况。可以完全适应我国坑爹的中国移动2G网络。</span></span></p>
+<p> <span ><span >手机切屏效果图一张：</span></span></p>
+<p> <span ><span><span><span><img alt="手机轮播效果图片" src="http://html5css3webapp.com/zw-img/wycr_0201.png" /></span></span></span></span></p>
+<p>html代码：</p>
+<pre code_snippet_id="337702" snippet_file_name="blog_20140510_1_814678"  class="html" name="code">&lt;div class=&quot;addWrap&quot;&gt;
+  &lt;div class=&quot;swipe&quot; id=&quot;mySwipe&quot;&gt;
+    &lt;div class=&quot;swipe-wrap&quot;&gt;
+      &lt;div&gt;&lt;a href=&quot;javascript:;&quot;&gt;&lt;img class=&quot;img-responsive&quot; src=&quot;images/1.jpg&quot;/&gt;&lt;/a&gt;&lt;/div&gt;
+      &lt;div&gt;&lt;a href=&quot;javascript:;&quot;&gt;&lt;img class=&quot;img-responsive&quot; src=&quot;images/2.jpg&quot;/&gt;&lt;/a&gt;&lt;/div&gt;
+      &lt;div&gt;&lt;a href=&quot;javascript:;&quot;&gt;&lt;img class=&quot;img-responsive&quot; src=&quot;images/3.jpg&quot;/&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;ul id=&quot;position&quot;&gt;
+    &lt;li class=&quot;cur&quot;&gt;&lt;/li&gt;
+    &lt;li class=&quot;&quot;&gt;&lt;/li&gt;
+    &lt;li class=&quot;&quot;&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+</pre>
+css代码：
+<pre code_snippet_id="337702" snippet_file_name="blog_20140510_2_9132568" class="html" name="code">body{ margin:0; padding:0}
+.addWrap{ position:relative; width:100%;background:#fff;margin:0; padding:0;}
+.addWrap .swipe{overflow: hidden;visibility: hidden;position:relative;}
+.addWrap .swipe-wrap{overflow:hidden;position:relative;}
+.addWrap .swipe-wrap &gt; div {float: left;width: 100%;position:relative;}
+
+#position{ position:absolute; bottom:0; right:0; padding-right:8px; margin:0; background:#000; opacity: 0.4; width:100%; filter: alpha(opacity=50);text-align:right;}
+#position li{width:10px;height:10px;margin:0 2px;display:inline-block;-webkit-border-radius:5px;border-radius:5px;background-color:#AFAFAF;}
+#position li.cur{background-color:#FF0000;}
+.img-responsive { display: block; max-width: 100%;  height: auto;}<span ><br />
+</pre>
+</span>由于js源码太长，我这里就直接写调用方法吧，源码我放在压缩包里，大家可以去里面查看，我也已经把自己的注释写进去了，希望能帮助一些能理解代码。（调用方法必须放在DOM后面，请注意）
+<pre code_snippet_id="337702" snippet_file_name="blog_20140510_3_2938770" class="html" name="code">var bullets = document.getElementById('position').getElementsByTagName('li');
+var banner = Swipe(document.getElementById('mySwipe'), {
+	auto: 2000,
+	continuous: true,
+	disableScroll:false,
+	callback: function(pos) {
+		var i = bullets.length;
+		while (i--) {
+		  bullets[i].className = ' ';
+		}
+		bullets[pos].className = 'cur';
+	}
+});</pre>
+<p><span><strong>文件包下载地址：</strong></span></p>
+<p> <span ><span><span><span><a target="_blank" href="http://download.csdn.net/detail/zw200813ht/7326281"><strong>http://download.csdn.net/detail/zw200813ht/7326281</strong></a></span></span></span></span> </p>
+</body>
+</html>

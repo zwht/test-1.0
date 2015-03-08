@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8" />
+    <title>
+    </title>
+</head>
+<body>
+<link rel="stylesheet" href="http://html5css3webapp.com/wp-content/themes/minty/zw_prism.css" />
+<script src="http://html5css3webapp.com/wp-content/themes/minty/zw_prism.js">
+</script>
+<p> mongodb是一款经典的nosql数据库，在庞大的业务体系中，我们经常会要求我们的数据库系统端有多条可选的数据库分支，使得不同的数据库系统能够满足不同种类的业务需求。比如有密集型高并发的需求，快速响应的需求，大量持久存储的需求等等。mongodb性能非常好，很好地支持了高用户量的需求，目前很多数据库系统在使用它。 </p>
+<p><br /></p>
+<p><strong> <span style="font-size:18px"> 安装： </span> </strong></p>
+<p><strong> <span style="font-size:18px"> <br /> </span> </strong></p>
+<p><a target="_blank" href="http://www.mongodb.org/downloads"> <span style="color:#ffcc00"> mongodb下载地址 </span> </a> <br /></p>
+<p> 安装好mongodb之后，打开控制台cmd（windows系统）进入安装目录，输入命令启动mongod.exe（mongodb的服务程序，监听对db的访问） </p>
+<p></p>
+<pre><code class="language-markup">
+  mongod
+</code>
+</pre>
+<br /> 如果它告诉你
+<p></p>
+<p></p>
+<pre><code class="language-markup">
+  *********************************************************************
+  ERROR: dbpath (\data\db\) does not exist. Create this directory or give
+  existing directory in --dbpath. See http://dochub.mongodb.org/core/startingandstoppingmongo
+  *********************************************************************
+</code> </pre>
+<br /> 则你需要在某个盘的根目录新建一个文件夹/data，并在其下新建一个文件夹/db，在启动mongod时，更改为（笔者选择了把这个文件建立在D盘根目录）：
+<br />
+<pre><code class="language-markup">
+mongod --dbpath d:/data/db
+</code>
+</pre>
+<p>启动成功后，会告诉你</p>
+<pre><code class="language-markup">
+waiting for connections on port 27017
+</code>
+</pre>
+<p>27017是mongodb的默认监听接口，此时你在地址栏中输入</p>
+
+<pre><code class="language-markup">
+http://127.0.0.1:27017/
+</code>
+</pre>
+<p>如果浏览器返回</p>
+<pre><code class="language-markup">
+It looks like you are trying to access MongoDB over HTTP on the native
+driver port.
+</code>
+</pre>
+<p>并且控制台有了相应的反应，说明你启动成功了。</p>
+<p><strong> <span style="font-size:18px"> 数据库管理： </span> </strong></p>
+
+<p> 现在我们已经启动了mongodb服务，怎么使用数据库呢？ </p>
+<p> 当然，我们可以简单地再开启一个控制台cmd，再进入mongodb的安装目录下启动mongo </p>
+
+<pre><code class="language-markup">
+mongo
+</code>
+</pre>
+
+<p>这样，你就可以在shell界面操作你的数据了</p>
+
+<pre><code class="language-markup">
+C:\Program Files\MongoDB 2.6 Standard\bin&gt;mongo MongoDB shell version:
+2.6.3 connecting to: test &gt;
+</code>
+</pre>
+
+<p>显示如此，说明连接成功并且开启了shell操作的功能。</p>
+<p> 你可以在 <a target="_blank" href="http://docs.mongodb.org/manual/"> <span style="color:#ffcc00"> 这里 </span> </a> 看到怎样操作mongodb，以及另一个中文的介绍 <a target="_blank" href="http://www.jb51.net/article/48217.htm"> <span style="color:#ffcc00"> 常用mongoDB命令 </span> </a> 。 </p>
+<p><br /></p>
+<p> 和其他数据库一样，我们有更好的图形界面了帮助我们管理mongodb数据库，在这里介绍一款Robomongo软件， </p>
+<p><a target="_blank" href="http://www.robomongo.org/"> <span style="color:#ffcc00"> 官网下载地址 </span> </a> &nbsp;如果你不能使用这个链接，点击 <a target="_blank" href="http://www.newasp.net/soft/75669.html"> <span style="color:#ffcc00"> 下载一个0.8.4版本 </span> </a> <br /></p>
+<p> 启动Robomongo，File-&gt;Connect，在MongoDB Connections窗口点击create新建一个数据库系统连接。 </p>
+<p> 在Connection界面：address写上localhost（如果你定向到本地的话，或者127.0.0.1），端口就是27017。 </p>
+<p> 在Authentication界面： </p>
+<p><span style="white-space:pre"> </span> 这里要注意的一点，mongodb默认不开启用户验证，在不开启用户验证的情况下，不需要登陆用户和用户验证即可访问数据库，如果你不需要使用用户验证，只想先测试一下数据库，就不要勾选Perform authentication，然后连接即可。 </p>
+<p><span style="white-space:pre"> </span> 但如果你想进行用户验证，你要保证在数据库系统的管理员数据库admin中有一个可用的账号（否则还是不会开启用户验证，没有账号你怎么获得所有权限呢），并且在启动mongodb服务时，在启动参数里加上&quot;--auth&quot;: </p>
+<p></p>
+<pre><code class="language-markup">
+&gt;mongod --dbpath d:/data/db --auth
+</code>
+</pre>
+<span style="white-space:pre"> </span> 此时勾选Perform authentication，并输入正确的账号密码，然后选择连接。
+<p></p>
+<p><span style="white-space:pre"> </span> PS：你可以先不使用用户验证，在admin新建账号密码，重新用开启用户验证的方式启动mongod。 </p>
+<p><br /></p>
+<p><span style="white-space:pre"> </span> 在Robomongo中，你可以右键一个数据库开启它的shell，然后在shell中输入命令Ctrl+Enter运行，这部分就和shell中的命令一样，你可以做所有你想要做的操作，其他方便的操作等待你去挖掘。 </p>
+<p><br /></p>
+<p><strong> <span style="font-size:14px"> Laravel中使用mongodb: </span> </strong></p>
+<p><span style="white-space:pre"> </span></p>
+<p><span style="white-space:pre"> </span> 如果你安装mongodb是为了在Laravel中使用，请先参考 <a target="_blank" href="http://v4.golaravel.com/docs/4.1/database"> <span style="color:#ffcc00"> laravel手册 </span> </a></p>
+<p><span style="white-space:pre"> </span> 在app/confi/database.php中，'connections'数组里我们添加一项mongodb的条目，表明我们的数据库系统架构里支持mongodb，并且定义它的连接方式： </p>
+<p></p>
+<pre><code class="language-markup">
+  'connections' => array(
+      'mongodb' => array(
+          'driver'   => 'mongodb',
+          'host'     => 'localhost',
+          'port'     => 27017,
+          'username' => 'picroot',
+          'password' => 'picroot',
+          'database' => 'picmongo',
+        ),
+  ),
+</code>
+</pre>
+<br /> picmongo是笔者在mongo数据库系统中建立的一个数据库，它有用户picroot/picroot（注意是该数据库的用户而不是admin的用户）
+<p></p>
+<p><span style="white-space:pre"> </span> PS:如果需要将mongo设置为首选数据库，可以更改'default'选项。 </p>
+<p><br /></p>
+<p><span style="white-space:pre"> </span> 除了在config配置数据库，还要配置我们的php组件，扩展我们的php以使用mongo。 </p>
+<p><span style="white-space:pre"> </span> 下载对应版本的php_mongo.dll，参考 <a target="_blank" href="http://php.net/manual/zh/mongo.installation.php#mongo.installation.manual"> <span style="color:#ffcc00"> 安装手册 </span> </a> &nbsp;，确认你的php版本，下载对应的dll组件，更名为php_mongo.dll，放入php的ext目中（如果你没有更改php默认的extension目录，那就是ext目录），并在php.ini中加入一行： <span style="white-space:pre"> <br /> </span></p>
+<pre><code class="language-markup">
+extension=php_mongo.dll
+</code>
+</pre>
+<span style="white-space:pre"> </span> 重新启动你的服务。为了验证我们是否配置成功，我在项目新建了数据库迁移，这部分知识可以参考
+<a target="_blank" href="http://v4.golaravel.com/docs/4.1/migrations#creating-migrations"> <span style="color:#ffcc00"> laravel手册 </span> </a> ：
+<p></p>
+<p></p>
+<pre><code class="language-php">
+<?php
+
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateLikecountTable extends Migration {
+
+    /**
+    * Run the migrations.
+    *
+    * @return void
+    */
+    public function up()
+    {
+        Schema::connection('mongodb')->create('count', function(Blueprint $table){
+            $table->increments('id');
+            $table->unsignedInteger('picture_id');
+            $table->unsignedInteger('count');
+            $table->timestamps();
+        });
+    }
+
+    /**
+    * Reverse the migrations.
+    *
+    * @return void
+    */
+    public function down()
+    {
+        Schema::drop('count');
+    }
+
+}
+</code>
+</pre>
+<span style="white-space:pre"> </span> 运行迁移命令，如果一切正常（包括正确的反馈信息，在数据库中成功创建表），则证明我们一切配置工作都已完成，可以轻松在laravel中使用mongodb了。
+<br />
+<p></p>
+<p><br /></p>
+<p><strong> <span style="font-size:14px"> 建议： </span> </strong></p>
+<p><span style="white-space:pre"> </span> 如果你不是很了解laravel中多数据库系统操作的话： <br /> <br /></p>
+<p> 1.不建议，但可以使用：每次使用前选择连接（当连接非默认数据库时): </p>
+<p><a target="_blank" href="http://v4.golaravel.com/docs/4.1/database#accessing-connections"> <span style="color:#ffcc33"> DB::connection </span> </a> <br /></p>
+<p> 其实这种写法并不是很好管理，还容易出错，连接后不及时disconnection的话，还可能占据冗余但不使用的数据库连接，对系统资源是一个浪费。 </p>
+<p> 2.建议：对所有使用数据库的Eloquent设定默认的数据库连接： </p>
+<p></p>
+<pre><code class="language-php">
+class YourEloquent extends Eloquent
+{
+    protected $connection = 'mongodb';
+    ...
+    ...
+}
+</code>
+</pre>
+<br />
+<span style="white-space:pre"> </span> Eloquent是非常方便的，在这里定义默认连接后，我们使用模型的Eloquent方法时自动会选择连接我们设定的数据库。对于一个庞大的业务，设定一个好的模型集合是非常重要的，它直接避免了程序员在代码中还要纠结该连哪个数据库的问题，而直接在模型中解决了。
+<p></p>
+<p><br /> <span style="white-space:pre"> </span> 对于那些一个模型使用两种链接的情况，笔者建议你将模型拆分（往往不同业务需求的数据库连接同样反映了在逻辑上这个模型是容易拆分的），使得每个模型应用一个数据库连接，不仅方便数据库迁移和回滚，也方便理解业务逻辑。 </p>
+<p><br /> <br /></p>
+</body>
+</html>

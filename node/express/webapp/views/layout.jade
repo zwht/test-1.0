@@ -1,8 +1,14 @@
 doctype html
-html
-  head
-    title= title
-    link(rel='stylesheet', href='stylesheets/style.css')
-  body
-    div.content
-      block content
+html(ng-app="myApp")
+    head
+        title(ng-bind='title')
+        link(rel='stylesheet', href='stylesheets/style.css')
+        script(src='javascripts/angular.min.js')
+        script(src='javascripts/angular-route.min.js')
+        script(src='javascripts/app.js')
+        script(src='javascripts/globalServer.js')
+        script(src='javascripts/service/index.js')
+        script(src='javascripts/controller/index.js')
+        script(src='javascripts/controller/test.js')
+    body
+        div(ng-view='')
